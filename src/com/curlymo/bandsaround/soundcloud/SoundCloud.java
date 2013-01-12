@@ -3,18 +3,20 @@ package com.curlymo.bandsaround.soundcloud;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 
-import com.curlymo.bandsaround.jambase.Events;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class SoundCloud {
 
-	public static String getTracks(String artist) {
-		Events events = null;
-		User[] users = null;
+	public static User getUser(String artist) {
+		//Events events = null;
+		Collection<User> users = null;
 		
 
 		StringBuilder uriBuilder= new StringBuilder();
@@ -35,9 +37,9 @@ public class SoundCloud {
 			
 			String json = getJSON(uri, 10000);
 			Gson gson = new Gson();
-			users = gson.fromJson(json, User[].class);
-			//Type collectionType = new TypeToken<Collection<channelSearchEnum>>(){}.getType();
-			//Collection<channelSearchEnum> enums = gson.fromJson(json, collectionType);
+			//users = gson.fromJson(json, User[].class);
+			Type collectionType = new TypeToken<Collection<User>>(){}.getType();
+			users = gson.fromJson(json, collectionType);
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -45,7 +47,42 @@ public class SoundCloud {
 			e.printStackTrace();
 		}
 		
-		return users[0].getUsername();
+		return users.iterator().next();
+	}
+	
+	public static Collection<Track> getTracks(String artist) {
+		User user = getUser(artist);
+		Collection<Track> tracks = null;
+		
+		StringBuilder uriBuilder= new StringBuilder();
+		uriBuilder.append("https://api.soundcloud.com");
+		uriBuilder.append("/users/"+user.getId());
+		uriBuilder.append("/tracks.json");
+		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("&order=" + "hotness");
+		String uri = uriBuilder.toString();
+
+		URL url;
+		try {
+			url = new URL(uri);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/xml");
+			connection.setReadTimeout(10000);
+			
+			String json = getJSON(uri, 10000);
+			Gson gson = new Gson();
+			//users = gson.fromJson(json, User[].class);
+			Type collectionType = new TypeToken<Collection<Track>>(){}.getType();
+			tracks = gson.fromJson(json, collectionType);
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return tracks;
 	}
 	
 	public static String getJSON(String url, int timeout) {
