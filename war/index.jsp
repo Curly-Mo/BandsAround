@@ -46,7 +46,7 @@
 	    	<audio preload></audio>
 	    	<ol id="tracks">
 	        	<c:forEach var="track" items="${tracks}">
-       	        	<li><a href="#" data-src="${track.stream_url}?client_id=84a2392830bf4d00a8fb7557613a36e6">${track.title}</a></li>
+       	        	<li><a href="#" data-src="${track.stream_url}?client_id=84a2392830bf4d00a8fb7557613a36e6">${track.user.username} - ${track.title}</a></li>
 				</c:forEach>
 	    	</ol>
 	    </div>

@@ -45,6 +45,7 @@ public class Track implements Serializable{
 	String favoritings_count;
 	String comment_count;
 	String attachments_uri;
+	User user;
 	
 	public String getId() {
 		return id;
@@ -286,4 +287,12 @@ public class Track implements Serializable{
 	public void setAttachments_uri(String attachments_uri) {
 		this.attachments_uri = attachments_uri;
 	}
+	
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+    	this.user = user;
+    }
 }

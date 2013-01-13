@@ -3,18 +3,21 @@ package com.curlymo.bandsaround.soundcloud;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Collection;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class SoundCloud {
 
-	public static User getUser(String artist) {
+	public static User getUser(String artist) throws UnsupportedEncodingException {
 		//Events events = null;
 		Collection<User> users = null;
 		
@@ -22,7 +25,7 @@ public class SoundCloud {
 		StringBuilder uriBuilder= new StringBuilder();
 		uriBuilder.append("https://api.soundcloud.com/users.json");
 		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
-		uriBuilder.append("&q=" + artist);
+		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&order=" + "hotness");
 		uriBuilder.append("&limit=" + "1");
 		String uri = uriBuilder.toString();
@@ -46,12 +49,17 @@ public class SoundCloud {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		return users.iterator().next();
+		if(users != null && !users.isEmpty()){
+			return users.iterator().next();
+		}
+		return null;
 	}
 	
-	public static Collection<Track> getTracks(String artist) {
+	public static Collection<Track> getTracks(String artist) throws UnsupportedEncodingException {
 		User user = getUser(artist);
+		if(user==null){
+			return Collections.emptyList();
+		}
 		Collection<Track> tracks = null;
 		
 		StringBuilder uriBuilder= new StringBuilder();

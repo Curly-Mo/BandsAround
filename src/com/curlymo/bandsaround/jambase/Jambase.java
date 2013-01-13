@@ -19,6 +19,7 @@ public class Jambase {
 		uriBuilder.append("http://api.jambase.com/search");
 		uriBuilder.append("?zip=" + zip);
 		uriBuilder.append("&radius=" + radius);
+		uriBuilder.append("&n=" + "10");
 		uriBuilder.append("&apikey=" + "hwxvvh2mtphmygtwce4vtmfm");
 		String uri = uriBuilder.toString();
 
