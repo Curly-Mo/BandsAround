@@ -22,14 +22,12 @@ public class BandsAroundServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/plain");
 		List<Track> tracks = new LinkedList<Track>();
-		Events events = Jambase.getEvents("08054", "50");
+		Events events = Jambase.getEvents("08054", "30");
 		if (events!=null){
 			for(Event event : events.getEvents()){
 				for(Artist artist : event.getArtists()){
 					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name());
-					for(Track track : artistTracks){
-						tracks.add(track);
-					}
+					tracks.addAll(artistTracks);
 				}
 				
 			}

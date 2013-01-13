@@ -26,7 +26,7 @@ public class Jambase {
 		uriBuilder.append("?zip=" + zip);
 		uriBuilder.append("&radius=" + radius);
 		uriBuilder.append("&startDate=" + dateFormat.format(cal.getTime()));
-		cal.roll(Calendar.DATE, 14);
+		cal.roll(Calendar.DATE, 7);
 		uriBuilder.append("&endDate=" + dateFormat.format(cal.getTime()));
 		uriBuilder.append("&apikey=" + "hwxvvh2mtphmygtwce4vtmfm");
 		String uri = uriBuilder.toString();
