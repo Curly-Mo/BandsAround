@@ -26,7 +26,7 @@ public class BandsAroundServlet extends HttpServlet {
 		if (events!=null){
 			for(Event event : events.getEvents()){
 				for(Artist artist : event.getArtists()){
-					Collection<Track> artistTracks = SoundCloud.getTracks(artist.getArtist_name());
+					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name());
 					for(Track track : artistTracks){
 						tracks.add(track);
 					}

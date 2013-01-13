@@ -42,7 +42,7 @@
 
         <!-- Add your site or application content here -->
         <div id="wrapper">
-	    	<h1>wait what &#151; notorious xx <em>(2009)</em></h1>
+	    	<h1 id="title"></h1>
 	    	<audio preload></audio>
 	    	<ol id="tracks">
 	        	<c:forEach var="track" items="${tracks}">

@@ -68,6 +68,7 @@ public class SoundCloud {
 		uriBuilder.append("/tracks.json");
 		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
 		uriBuilder.append("&order=" + "hotness");
+		uriBuilder.append("&limit=" + "10");
 		String uri = uriBuilder.toString();
 
 		URL url;
@@ -90,6 +91,45 @@ public class SoundCloud {
 			e.printStackTrace();
 		}
 		
+		return tracks;
+	}
+	
+	public static Collection<Track> getTracksByTrackSearch(String artist) throws UnsupportedEncodingException {
+		Collection<Track> tracks = null;
+		
+		StringBuilder uriBuilder= new StringBuilder();
+		uriBuilder.append("https://api.soundcloud.com");
+		uriBuilder.append("/tracks.json");
+		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
+		uriBuilder.append("&username=" + URLEncoder.encode(artist,"UTF-8"));
+		uriBuilder.append("&order=" + "hotness");
+		uriBuilder.append("&limit=" + "5");
+		String uri = uriBuilder.toString();
+
+		URL url;
+		try {
+			url = new URL(uri);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/xml");
+			connection.setReadTimeout(10000);
+			
+			String json = getJSON(uri, 10000);
+			Gson gson = new Gson();
+			//users = gson.fromJson(json, User[].class);
+			Type collectionType = new TypeToken<Collection<Track>>(){}.getType();
+			tracks = gson.fromJson(json, collectionType);
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if (tracks==null){
+			return Collections.emptyList();
+		}
 		return tracks;
 	}
 	

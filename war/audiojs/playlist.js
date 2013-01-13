@@ -61,6 +61,7 @@ var startList=1;
     	}
       	hideElement = hideElement.prev()
       }
+      $("#title").text($('li.playing').text());
 
     });
 

@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,11 +18,16 @@ public class Jambase {
 	public static Events getEvents(String zip, String radius) {
 		Events events = null;
 		
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar cal = Calendar.getInstance();
+		
 		StringBuilder uriBuilder= new StringBuilder();
 		uriBuilder.append("http://api.jambase.com/search");
 		uriBuilder.append("?zip=" + zip);
 		uriBuilder.append("&radius=" + radius);
-		uriBuilder.append("&n=" + "10");
+		uriBuilder.append("&startDate=" + dateFormat.format(cal.getTime()));
+		cal.roll(Calendar.DATE, 14);
+		uriBuilder.append("&endDate=" + dateFormat.format(cal.getTime()));
 		uriBuilder.append("&apikey=" + "hwxvvh2mtphmygtwce4vtmfm");
 		String uri = uriBuilder.toString();
 
