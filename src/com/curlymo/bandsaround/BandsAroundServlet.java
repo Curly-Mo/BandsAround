@@ -33,7 +33,7 @@ public class BandsAroundServlet extends HttpServlet {
 		}
 		
 		Events events = Jambase.getEvents(zip, radius);
-		if (events!=null){
+		if (events!=null && events.getEvents()!=null && !events.getEvents().isEmpty()){
 			for(Event event : events.getEvents()){
 				for(Artist artist : event.getArtists()){
 					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name());

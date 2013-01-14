@@ -12,8 +12,8 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 public class Geocoder {
 
 	public static String getZipFromLatLng(String latlng) throws JSONException {
-		if(latlng == ""){
-			return "00000";
+		if(latlng==null || latlng.equals("")){
+			return "92865";
 		}
         String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=";
         url+= latlng;
