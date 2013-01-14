@@ -13,6 +13,7 @@ var startList=1;
         first = $('ol a').attr('data-src');
     $('ol li').first().addClass('playing');
     audio.load(first);
+    $("#title").text($('li.playing').text());
 
     // Keyboard shortcuts
     $(document).keydown(function(e) {
