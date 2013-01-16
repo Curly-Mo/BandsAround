@@ -35,21 +35,18 @@
 	    <script src="js/jquery.js"></script>
 	    <script src="audiojs/audio.min.js"></script>
 	    <script src="audiojs/playlist.js"></script>
+	    <script src="js/playliststream.js"></script>
 	    <script src="http://connect.soundcloud.com/sdk.js"></script>
     </head>
     <body>
 
         <!-- Add your site or application content here -->
         <div id="wrapper">
-	      <h1>wait what &#151; notorious xx <em>(2009)</em></h1>
-	      <audio preload></audio>
-	      <ol id="tracks">
-	        <li><a href="#" data-src="http://api.soundcloud.com/tracks/3100297/stream?client_id=84a2392830bf4d00a8fb7557613a36e6">dead wrong intro</a></li>
-	        <li><a href="#" data-src="http://s3.amazonaws.com/audiojs/02-juicy-r.mp3">juicy-r</a></li>
-	        <li><a href="#" data-src="http://s3.amazonaws.com/audiojs/03-its-all-about-the-crystalizabeths.mp3">it's all about the crystalizabeths</a></li>
-	        <li><a href="#" data-src="http://s3.amazonaws.com/audiojs/04-islands-is-the-limit.mp3">islands is the limit</a></li>
-	        <li><a href="#" data-src="http://s3.amazonaws.com/audiojs/05-one-more-chance-for-a-heart-to-skip-a-beat.mp3">one more chance for a heart to skip a beat</a></li>
-	      </ol>
+	    	<h1 id="title"></h1>
+	    	<audio preload></audio>
+	    	<ol id="tracks">
+	    		<li><a href="#" data-src="http://api.soundcloud.com/tracks/3100297/stream?client_id=84a2392830bf4d00a8fb7557613a36e6">dead wrong intro</a></li>
+	    	</ol>
 	    </div>
 
         <script src="js/vendor/zepto.min.js"></script>

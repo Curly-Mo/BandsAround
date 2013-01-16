@@ -24,6 +24,14 @@
 		<url-pattern>/soundcloud</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	<servlet-name>EventStream</servlet-name>
+		<servlet-class>com.curlymo.bandsaround.EventStreamServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EventStream</servlet-name>
+		<url-pattern>/eventstream</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	<servlet-name>Test</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.TestServlet</servlet-class>
 	</servlet>
