@@ -6,7 +6,7 @@ if (typeof(EventSource)!=="undefined") {
 
 source.addEventListener('message', function(e) {
 	var data = JSON.parse(e.data);
-    $("<li><a href='#' data-src='"+data+"'>"+data+"</a></li>").appendTo('#tracks');   
+    $("<li><a href='#' data-src='"+data.url+"'>"+data.title+"</a></li>").appendTo('#tracks');   
     
     // Load in a track on click
     $('ol li').click(function(e) {
