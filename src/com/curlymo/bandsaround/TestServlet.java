@@ -1,7 +1,5 @@
 package com.curlymo.bandsaround;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.CharBuffer;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
