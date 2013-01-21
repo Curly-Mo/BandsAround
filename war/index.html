@@ -30,7 +30,6 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
-        
         <link rel="stylesheet" href="audiojs/audiojs.css" media="screen">
 	    <script src="js/jquery.js"></script>
 	    <script src="audiojs/audio.min.js"></script>
@@ -40,11 +39,16 @@
     <body>
 
         <!-- Add your site or application content here -->
-        <div id="wrapper">
-	    	<h1 id="title"></h1>
-	    	<audio preload></audio>
-	    	<ol id="tracks">
-	    	</ol>
+		<div id='slider' class='swipe'>
+		  <ul>
+		  	<li style='display:none'><div>Settings will go here.</div></li>
+		    <li style='display:block'>
+		    	<h1 id="title"></h1>
+		    	<audio preload="none"></audio>
+		    	<ol id="tracks"></ol>
+		    </li>
+		    <li style='display:none'><div>Information about the band/artist and upcoming event will go here.</div></li>
+		  </ul>
 	    </div>
 
         <script src="js/vendor/zepto.min.js"></script>
@@ -58,5 +62,7 @@
             s.parentNode.insertBefore(g,s)}(document,"script"));
         </script>
         <script src="js/channel.js"></script>
+        <script src='swipe/swipe.min.js'></script>
+        <script src='swipe/myswipe.js'></script>
     </body>
 </html>
