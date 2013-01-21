@@ -1,12 +1,12 @@
 body { color: #666; font-family: sans-serif; line-height: 1.4; }
-h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
+h1 { color: #444; font-size: 1.2em; padding: 6px 2px 8px; margin: 0px; }
 h1 em { font-style: normal; color: #999; }
 a { color: #888; text-decoration: none; }
 #wrapper { width: 90%; margin: 10px auto; }
 
-ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
-ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
-ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 100%; border-top: 1px solid #ccc; font-size: 0.9em; }
+ol li { position: relative; text-color: #888; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
+ol li a { display: block; color: #888;padding-left:1.7em;text-indent:-1.7em; }
 li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
 li.playing a { color: #000; }
 li.playing:before { content: "\266B"; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
@@ -23,3 +23,15 @@ li.playing:before { content: "\266B"; width: 14px; height: 14px; padding: 3px; l
   #wrapper { position: relative; float: left; left: 1.6%; top 0px; }
   #shortcuts { display: none; }
 }
+
+ul { padding: 0px; margin: 0px; }
+ol li { position: relative; margin: 0px; }
+
+.audiojs { width: 100%; height: 36px; }
+.audiojs .play-pause { width: 25px; height: 40px;} 
+.audiojs p { width: 25px; height: 40px; } 
+.audiojs .scrubber { width: 60%; height: 14px;} 
+.audiojs .progress { height: 14px; width: 0px; } 
+.audiojs .loaded { height: 14px; width: 0px; background: #000; } 
+.audiojs .time { height: 36px; line-height: 36px; margin: 0px 0px 0px 6px; padding: 0px 6px 0px 12px;} 
+.audiojs .error-message { height: 36px; width: 400px; line-height: 36px; } 
