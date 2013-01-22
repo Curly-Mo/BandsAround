@@ -1,5 +1,8 @@
 package com.curlymo.bandsaround;
+import static com.google.appengine.api.taskqueue.TaskOptions.Builder.withUrl;
+
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +13,6 @@ import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions.Method;
-import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
@@ -18,8 +20,8 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 public class InitChannelServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    ChannelService channelService = ChannelServiceFactory.getChannelService();
-String channelKey = "xyz";
-	    //String channelKey = UUID.randomUUID().toString();
+	    //String channelKey = "xyz";
+	    String channelKey = UUID.randomUUID().toString();
 	    String token = channelService.createChannel(channelKey);
         
         resp.setContentType("application/json;charset=utf-8");
