@@ -28,6 +28,9 @@ function onMessage(msg) {
     }else{
     	initPlaylist();
     }
+	setTimeout(function () {
+		myScroll.refresh();
+	}, 0);
 }
 
 function onClose() {
