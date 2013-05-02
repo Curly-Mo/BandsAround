@@ -1,0 +1,8 @@
+html, body { height:100%; }
+
+#wrapper {
+	width:100%;
+	min-width:320px;
+	height:100%;
+	float: left;
+}
