@@ -94,7 +94,7 @@ public class SoundCloud {
 		return tracks;
 	}
 	
-	public static Collection<Track> getTracksByTrackSearch(String artist) throws UnsupportedEncodingException {
+	public static Collection<Track> getTracksByTrackSearch(String artist, int limit) throws UnsupportedEncodingException {
 		Collection<Track> tracks = null;
 		
 		StringBuilder uriBuilder= new StringBuilder();
@@ -104,7 +104,7 @@ public class SoundCloud {
 		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&username=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&order=" + "hotness");
-		uriBuilder.append("&limit=" + "5");
+		uriBuilder.append("&limit=" + limit);
 		String uri = uriBuilder.toString();
 
 		URL url;

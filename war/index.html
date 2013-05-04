@@ -32,9 +32,10 @@
 	    <script src="/_ah/channel/jsapi"></script>
 	    <script src="http://connect.soundcloud.com/sdk.js"></script>
 	    <script src="swipeview/swipeview.js"></script>
-	    <script src="swipeview/myswipeview.js"></script>
 	    <script src="iscroll/iscroll.js"></script> 
 	    <script src="iscroll/myscroll.js"></script>   
+	    <!-- <script src="js/geolocation.js"></script>-->   
+		<!-- <script src="js/cookies.js"></script>--> 
 		
 	    <script>
 	    	/mobile/i.test(navigator.userAgent) && setTimeout(function() {   window.scrollTo(0, 1); }, 1000); 
@@ -48,6 +49,8 @@
 		<script type="text/javascript" src="js/application.js"></script>
 
 
+		<div id="loading" style="position:absolute; left:0; top:40%; text-align: center;width:100%">Loading...</div>
+
         <script src="js/vendor/zepto.min.js"></script>
         <script src="js/helper.js"></script>
 
@@ -58,6 +61,6 @@
             g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
             s.parentNode.insertBefore(g,s)}(document,"script"));
         </script>
-        <script src="js/channel.js"></script>
+        <script src="js/songRequest.js"></script>
     </body>
 </html>

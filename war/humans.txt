@@ -3,13 +3,15 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    Colin Fahy
 
 # THANKS
 
-    <name>
+    http://SoundCloud.com
+    http://JamBase.com
 
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
     jQuery, Modernizr
+    iScroll, AudioJS

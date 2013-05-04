@@ -40,6 +40,14 @@
 		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	<servlet-name>BandWagon</servlet-name>
+		<servlet-class>com.curlymo.bandsaround.BandWagonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BandWagon</servlet-name>
+		<url-pattern>/bandwagon</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	<servlet-name>InitChannel</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.InitChannelServlet</servlet-class>
 	</servlet>
@@ -50,6 +58,7 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
  <servlet>
   <servlet-name>SystemServiceServlet</servlet-name>
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>

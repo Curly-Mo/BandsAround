@@ -1,7 +1,30 @@
 var myScroll;
 function loaded() {
 	myScroll = new iScroll('scroller', {
-		snap: 'li'});
+		hScroll: false,
+		vScroll: true,
+		x: 0,
+		y: 0,
+		bounce: false,
+		bounceLock: false,
+		momentum: true,
+		lockDirection: true,
+		useTransform: true,
+		useTransition: true,
+		
+		snap: false,
+		snapThreshold: 1,
+		
+		onRefresh: null,
+		onBeforeScrollStart: function (e) { e.preventDefault(); },
+		onScrollStart: null,
+		onBeforeScrollMove: null,
+		onScrollMove: null,
+		onBeforeScrollEnd: null,
+		onScrollEnd: null,
+		onTouchEnd: null,
+		onDestroy: null
+			});
 }
 
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
