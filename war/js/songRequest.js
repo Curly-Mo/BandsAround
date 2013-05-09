@@ -2,12 +2,13 @@ initialize();
 requestTracks();
 
 function initialize(){
-	var days = 0;
-	var limit = 1;
+	var dayStart = 0;
+	var dayEnd = 0;
+	var tracksPerArtist = 1;
 	$.ajax({
 	    url : "/bandwagon",
 	    dataType : 'json',
-	    data: {days : days, limit : limit},
+	    data: {dayStart : dayStart, dayEnd : dayEnd, tracksPerArtist : tracksPerArtist},
 	    error : function() {
 	        alert("Error Occured =(");
 	    },
@@ -15,25 +16,26 @@ function initialize(){
 	    	parseResponse(data);
 	    	$("#loading").hide();
         	initPlaylist();
+        	audio.playPause();
 	    }
 	});
 }
 
 function requestTracks(){
-	var days = 7;
-	var limit = 5;
+	var dayStart = 0;
+	var dayEnd = 14;
+	var tracksPerArtist = 5;
 	var radius = "20";
 	var zip = "00000"
 	$.ajax({
 	    url : "/bandwagon",
 	    dataType : 'json',
-	    data: {days : days, limit : limit, radius: radius, zip: zip},
+	    data: {dayStart : dayStart, dayEnd : dayEnd, tracksPerArtist : tracksPerArtist, radius: radius, zip: zip},
 	    error : function() {
 	        alert("Error Occured =(");
 	    },
 	    success : function(data) {
-	    	sessionStorage.setItem("tracks", data);
-	    	parseResponse(data);
+	    	storeTracks(data);
 	    }
 	});
 }
@@ -49,15 +51,34 @@ function parseResponse(jsonData) {
 	updatePlaylist();
 }
 
-function storeAllTracks(jsonData) {
-	for (var i in jsonData.tracks) {
-	    var track = jsonData.tracks[i];
+function storeTracks(jsonData) {
+	sessionStorage.setItem("tracks",JSON.stringify(jsonData.tracks));
+}
+
+function loadSongsFromStorage() {
+	var tracks = JSON.parse(sessionStorage.getItem("tracks"));
+	for (var i in tracks) {
+	    var track = tracks[i];
 	    $("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
 	}
 	setTimeout(function () {
 		myScroll.refresh();
 	}, 1000);
 	updatePlaylist();
+}
+
+function loadSongFromStorage() {
+	var tracks = JSON.parse(sessionStorage.getItem("tracks"));
+	var track = tracks.shift();
+	if(track){
+		$("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
+		sessionStorage.setItem("tracks",JSON.stringify(tracks));
+	
+		setTimeout(function () {
+			myScroll.refresh();
+		}, 1000);
+		updatePlaylist();
+	}
 }
 
 function initPlaylist(){
@@ -100,7 +121,7 @@ function initPlaylist(){
       audio.load($('a', this).attr('data-src'));
       audio.play();
       $("#title").text($('li.playing').text());
-
+      myScroll.scrollToElement(this, 1000)
     });
 }
 
@@ -112,6 +133,6 @@ function updatePlaylist(){
       audio.load($('a', this).attr('data-src'));
       audio.play();
       $("#title").text($('li.playing').text());
-
+      myScroll.scrollToElement(this, 1000)
     });
 }

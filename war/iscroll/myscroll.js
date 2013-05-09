@@ -1,5 +1,5 @@
 var myScroll;
-function loaded() {
+function init_myScroll() {
 	myScroll = new iScroll('scroller', {
 		hScroll: false,
 		vScroll: true,
@@ -11,6 +11,40 @@ function loaded() {
 		lockDirection: true,
 		useTransform: true,
 		useTransition: true,
+		topOffset: 0,
+		checkDOMChanges: false,		// Experimental
+		handleClick: true,
+		
+		snap: false,
+		snapThreshold: 1,
+		
+		onRefresh: null,
+		onBeforeScrollStart: function (e) { e.preventDefault(); },
+		onScrollStart: null,
+		onBeforeScrollMove: null,
+		onScrollMove: null,
+		onBeforeScrollEnd: null,
+		onScrollEnd: loadSongFromStorage,
+		onTouchEnd: null,
+		onDestroy: null
+			});
+}
+
+function init_settingsScroll(){
+	settingsScroll = new iScroll('settings-scroller', {
+		hScroll: false,
+		vScroll: true,
+		x: 0,
+		y: 0,
+		bounce: false,
+		bounceLock: false,
+		momentum: true,
+		lockDirection: true,
+		useTransform: true,
+		useTransition: true,
+		topOffset: 0,
+		checkDOMChanges: false,		// Experimental
+		handleClick: true,
 		
 		snap: false,
 		snapThreshold: 1,
@@ -34,7 +68,7 @@ document.addEventListener('touchmove', function (e) { e.preventDefault(); }, fal
  * Use this for high compatibility (iDevice + Android)
  *
  */
-document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(init_myScroll, 200); }, false);
 /*
  * * * * * * * */
 

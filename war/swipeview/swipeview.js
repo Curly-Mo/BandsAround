@@ -335,6 +335,13 @@ var SwipeView = (function (window, document) {
 				this.initiated = false;
 				return;
 			}
+			
+			// Ignore elements with ignore-swipeview !!Added by colin!!
+            var el = e.target;
+            if (el.hasAttribute && el.hasAttribute("data-noswipe")) {
+            	this.initiated = false;
+            	return;
+            }
 
 			e.preventDefault();
 

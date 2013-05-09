@@ -2,6 +2,7 @@ package com.curlymo.bandsaround;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,9 @@ public class BandWagonServlet extends HttpServlet {
 		String latLng = req.getHeader("X-AppEngine-CityLatLong");
 		String zip = "00000";
 		String radius = "20";
-		int days = Integer.parseInt(req.getParameter("days"));
-		int limit = Integer.parseInt(req.getParameter("limit"));
+		int dayStart = Integer.parseInt(req.getParameter("dayStart"));
+		int dayEnd = Integer.parseInt(req.getParameter("dayEnd"));
+		int tracksPerArtist = Integer.parseInt(req.getParameter("tracksPerArtist"));
 
 		try {
 			zip = Geocoder.getZipFromLatLng(latLng);
@@ -34,11 +36,11 @@ public class BandWagonServlet extends HttpServlet {
 		}
 		
 		JSONArray jsonArray = new JSONArray();
-		Events events = Jambase.getEvents(zip, radius, days);
+		Events events = Jambase.getEvents(zip, radius, dayStart, dayEnd);
 		if (events!=null && events.getEvents()!=null && !events.getEvents().isEmpty()){
 			for(Event event : events.getEvents()){
 				for(Artist artist : event.getArtists()){
-					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name(), limit);
+					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name(), tracksPerArtist);
 					for(Track track : artistTracks){
 						jsonArray.put(trackToJson(track, artist));
 					}
@@ -49,7 +51,7 @@ public class BandWagonServlet extends HttpServlet {
 		
 		JSONObject json = new JSONObject();
 		try {
-			json.put("tracks",jsonArray);
+			json.put("tracks",shuffleJsonArray(jsonArray));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,4 +77,17 @@ public class BandWagonServlet extends HttpServlet {
         return json;
 	}
 	
+	public static JSONArray shuffleJsonArray(JSONArray array) throws JSONException {
+	    // Implementing Fisher–Yates shuffle
+	        Random rnd = new Random();
+	        for (int i = array.length() - 1; i >= 0; i--)
+	        {
+	          int j = rnd.nextInt(i + 1);
+	          // Simple swap
+	          Object object = array.get(j);
+	          array.put(j, array.get(i));
+	          array.put(i, object);
+	        }
+	    return array;
+	}
 }

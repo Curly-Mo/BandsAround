@@ -1,0 +1,98 @@
+<div id="settings-scroller">
+<ul>
+<li>
+<form id="settings-form" style="margin-left: auto;margin-right: auto;">
+
+	<h2>Settings</h2>
+
+    <!-- Detect Location Switch -->
+	<div data-noswipe data-role="fieldcontain">
+		<label for="detect_location">Detect Location:</label>
+		<select name="detect_location" id="detect_location" data-role="slider">
+			<option value="false">Off</option>
+			<option value="true" selected>On</option>
+		</select>
+	</div>
+           <!-- Custom Location (Hidden) -->
+           <div class="custom_location" style="display:none">
+                <div data-role="fieldcontain">
+                 <label for="zip">Zip Code:</label>
+                 <input type="text" name="zip" id="zip" value="" />
+                </div>
+            </div>
+
+	<div data-noswipe data-role="fieldcontain">
+		<label for="radius">Venues within (miles):</label>
+	 	<input type="number" data-type="range"  name="radius" id="radius" value="20" min="1" max="100" data-highlight="true"  />
+	</div>
+
+	<div data-role="fieldcontain">
+	    <fieldset data-role="controlgroup" data-type="horizontal">
+	    	<legend>Date Range:</legend>
+	         	<input type="radio" name="dates" id="dates1" value="week" />
+	         	<label for="dates1">This Week</label>
+
+	         	<input type="radio" name="dates" id="dates2" value="month" checked="checked" />
+	         	<label for="dates2">This Month</label>
+
+	         	<input type="radio" name="dates" id="dates3" value="3month" />
+	         	<label for="dates3">Next 3 Months</label>
+
+	         	<input type="radio" name="dates" id="dates4" value="weekend" />
+	         	<label for="dates4">This Weekend</label>
+	         				         	
+	         	<input type="radio" name="dates" id="dates5" value="weekends" />
+	         	<label for="dates5">Every Weekend</label>
+	    </fieldset>
+	</div>
+
+	<div>
+		<fieldset data-role="fieldcontain">
+				<div><button type="submit">Wag On!</button></div>
+	    </fieldset>
+	</div>
+	<br>
+</form>
+</li>
+</ul>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() { 
+	    $('#detect_location').change(function() {
+	        if ($(this).val() == 'true') {
+	            $('.custom_location').slideUp("slow");
+	            $('#zip').attr("required", false);
+	        } else {
+	            $('.custom_location').slideDown("slow");
+	            $('#zip').attr("required", true);
+	        }
+	    });
+	    $("#settings-form").on('submit', function(e) {
+	    	e.preventDefault();
+       		localStorage.setItem("settings", JSON.stringify($(this).serializeArray()));
+       		localStorage.setItem("detect_location", $('#detect_location').val());
+       		localStorage.setItem("zip", $('#zip').val());
+       		localStorage.setItem("radius", $('#radius').val());
+       		localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
+       		gallery.next();
+        });
+	    if (localStorage) {
+			if (localStorage.detect_location) {
+				$("#detect_location").val(localStorage.detect_location);
+				if ($("#detect_location").val() == 'false') {
+					$('.custom_location').slideDown();
+					$('#zip').attr("required", true);
+				}
+			}
+			if (localStorage.zip) {
+				$("#zip").val(localStorage.zip);
+			}
+			if (localStorage.radius) {
+				$("#radius").val(localStorage.radius);
+			}
+	    	if (localStorage.dates) {
+	    		$('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").attr("checked", true);
+			}
+	    }
+	});
+</script>
