@@ -1,5 +1,7 @@
 initialize();
 requestTracks();
+var pendingTracks = [];
+var loadedTracks = [];
 
 function initialize(){
 	var dayStart = 0;
@@ -23,7 +25,7 @@ function initialize(){
 
 function requestTracks(){
 	var dayStart = 0;
-	var dayEnd = 14;
+	var dayEnd = 7;
 	var tracksPerArtist = 5;
 	var radius = "20";
 	var zip = "00000"
@@ -36,6 +38,8 @@ function requestTracks(){
 	    },
 	    success : function(data) {
 	    	storeTracks(data);
+	    	loadTracks(10);
+	    	//loadSongsFromStorage();
 	    }
 	});
 }
@@ -52,6 +56,7 @@ function parseResponse(jsonData) {
 }
 
 function storeTracks(jsonData) {
+	pendingTracks = JSON.parse(JSON.stringify(jsonData.tracks));
 	sessionStorage.setItem("tracks",JSON.stringify(jsonData.tracks));
 }
 
@@ -60,6 +65,7 @@ function loadSongsFromStorage() {
 	for (var i in tracks) {
 	    var track = tracks[i];
 	    $("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
+	    loadedTracks.push(track);
 	}
 	setTimeout(function () {
 		myScroll.refresh();
@@ -72,13 +78,40 @@ function loadSongFromStorage() {
 	var track = tracks.shift();
 	if(track){
 		$("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
-		sessionStorage.setItem("tracks",JSON.stringify(tracks));
+		//sessionStorage.setItem("tracks",JSON.stringify(tracks));
+		loadedTracks.push(track);
 	
 		setTimeout(function () {
 			myScroll.refresh();
 		}, 1000);
 		updatePlaylist();
 	}
+}
+
+function loadTracks(numToLoad) {
+	for (var i = 0; i < numToLoad; i++) {
+		if(i < pendingTracks.length){
+			var track = pendingTracks.pop();
+		    $("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
+		    loadedTracks.push(track);
+		}
+	}
+	setTimeout(function () {
+		myScroll.refresh();
+	}, 100);
+	updatePlaylist();
+}
+
+function unloadTracks(numToUnload) {
+	for (var i = 0; i < numToUnload; i++) {
+		var track;
+		$('#tracks li:last-child').remove();
+		track = loadedTracks.pop(track);
+		pendingTracks.push(track);
+	}
+	setTimeout(function () {
+		myScroll.refresh();
+	}, 100);
 }
 
 function initPlaylist(){
@@ -128,11 +161,11 @@ function initPlaylist(){
 function updatePlaylist(){
     // Load in a track on click
     $('ol li').click(function(e) {
-      e.preventDefault();
-      $(this).addClass('playing').siblings().removeClass('playing');
-      audio.load($('a', this).attr('data-src'));
-      audio.play();
-      $("#title").text($('li.playing').text());
-      myScroll.scrollToElement(this, 1000)
+    	e.preventDefault();
+    	$(this).addClass('playing').siblings().removeClass('playing');
+    	audio.load($('a', this).attr('data-src'));
+    	audio.play();
+    	$("#title").text($('li.playing').text());
+    	myScroll.scrollToElement(this, 1000)
     });
 }

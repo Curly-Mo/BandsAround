@@ -22,9 +22,9 @@ function init_myScroll() {
 		onBeforeScrollStart: function (e) { e.preventDefault(); },
 		onScrollStart: null,
 		onBeforeScrollMove: null,
-		onScrollMove: null,
+		onScrollMove: scrollMove,
 		onBeforeScrollEnd: null,
-		onScrollEnd: loadSongFromStorage,
+		onScrollEnd: null,
 		onTouchEnd: null,
 		onDestroy: null
 			});
@@ -63,12 +63,27 @@ function init_settingsScroll(){
 
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
+var previousTracks = [];
+function scrollMove(){
+	//if(this.y < -20*$("#tracks").children(":first").outerHeight() ){
+		//previousTracks.push($('#tracks li:first-child').remove());
+		//this.refresh();
+		//console.log(previousTracks);
+	//}
+	if( this.dirY == 1 && this.y < (this.maxScrollY + 195)){
+		loadTracks(1);
+	}
+	if( this.dirY == -1 && this.y > (this.maxScrollY + 390) ){
+		unloadTracks(1);
+	}
+}
+
 /* * * * * * * *
  *
  * Use this for high compatibility (iDevice + Android)
  *
  */
-document.addEventListener('DOMContentLoaded', function () { setTimeout(init_myScroll, 200); }, false);
+//document.addEventListener('DOMContentLoaded', function () { setTimeout(init_myScroll, 200); }, false);
 /*
  * * * * * * * */
 
