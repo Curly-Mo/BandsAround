@@ -133,6 +133,21 @@ public class SoundCloud {
 		return tracks;
 	}
 	
+	public static URL getTracksURLByTrackSearch(String artist, int limit) throws UnsupportedEncodingException, MalformedURLException {	
+		StringBuilder uriBuilder= new StringBuilder();
+		uriBuilder.append("https://api.soundcloud.com");
+		uriBuilder.append("/tracks.json");
+		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
+		uriBuilder.append("&username=" + URLEncoder.encode(artist,"UTF-8"));
+		uriBuilder.append("&order=" + "hotness");
+		uriBuilder.append("&limit=" + limit);
+		String uri = uriBuilder.toString();
+
+		URL url = new URL(uri);
+		return url;
+	}
+	
 	public static String getJSON(String url, int timeout) {
 	    try {
 	        URL u = new URL(url);

@@ -6,8 +6,8 @@
 	<h2>Settings</h2>
 
     <!-- Detect Location Switch -->
-	<div data-noswipe data-role="fieldcontain">
-		<label for="detect_location">Detect Location:</label>
+	<div data-noswipe-wrapper data-role="fieldcontain">
+		<label for="detect_location">Auto Detect Location:</label>
 		<select name="detect_location" id="detect_location" data-role="slider">
 			<option value="false">Off</option>
 			<option value="true" selected>On</option>
@@ -17,32 +17,43 @@
            <div class="custom_location" style="display:none">
                 <div data-role="fieldcontain">
                  <label for="zip">Zip Code:</label>
-                 <input data-noswipe type="text" name="zip" id="zip" value="" />
+                 <input type="text" name="zip" id="zip" value="" />
                 </div>
             </div>
 
-	<div data-noswipe data-role="fieldcontain">
+	<div data-noswipe-wrapper data-role="fieldcontain">
 		<label for="radius">Venues within (miles):</label>
-	 	<input type="number" data-type="range"  name="radius" id="radius" value="20" min="1" max="100" data-highlight="true"  />
+	 	<input type="number" data-type="range"  name="radius" id="radius" value="20" min="1" max="50" data-highlight="true"  />
 	</div>
 
 	<div data-role="fieldcontain">
 	    <fieldset data-role="controlgroup" data-type="horizontal">
 	    	<legend>Date Range:</legend>
-	         	<input type="radio" name="dates" id="dates1" value="week" />
-	         	<label for="dates1">This Week</label>
+	    		<input type="radio" name="dates" id="dates1" value="tonight" />
+	         	<label for="dates1">Tonight</label>
+	         	
+	         	<input type="radio" name="dates" id="dates2" value="weekend" />
+	         	<label for="dates2">This Weekend</label>
+	         	
+	         	<input type="radio" name="dates" id="dates3" value="week" />
+	         	<label for="dates3">This Week</label>
 
-	         	<input type="radio" name="dates" id="dates2" value="month" checked="checked" />
-	         	<label for="dates2">This Month</label>
+	         	<input type="radio" name="dates" id="dates4" value="month" checked="checked" />
+	         	<label for="dates4">This Month</label>
 
-	         	<input type="radio" name="dates" id="dates3" value="3month" />
-	         	<label for="dates3">Next 3 Months</label>
+	         	<input type="radio" name="dates" id="dates5" value="3month" />
+	         	<label for="dates5">Next 3 Months</label>
+	    </fieldset>
+	</div>
+	
+	<div data-role="fieldcontain">
+	    <fieldset data-role="controlgroup" data-type="horizontal">
+	    	<legend>Theme:</legend>
+	         	<input type="radio" name="theme" id="theme1" value="light" checked="checked" />
+	         	<label for="theme1">Light</label>
 
-	         	<input type="radio" name="dates" id="dates4" value="weekend" />
-	         	<label for="dates4">This Weekend</label>
-	         				         	
-	         	<input type="radio" name="dates" id="dates5" value="weekends" />
-	         	<label for="dates5">Every Weekend</label>
+	         	<input type="radio" name="theme" id="theme2" value="dark" />
+	         	<label for="theme2">Dark</label>
 	    </fieldset>
 	</div>
 
@@ -67,6 +78,16 @@
 	            $('#zip').attr("required", true);
 	        }
 	    });
+	    $('#zip').on('click', function () {
+	    	$(this).focus(); 
+	    });
+	    $('input[name=theme]').change(function() {
+	        if ($(this).val() == 'dark') {
+	            changeTheme("a");
+	        } else {
+	            changeTheme("c");
+	        }
+	    });
 	    $("#settings-form").on('submit', function(e) {
 	    	e.preventDefault();
        		localStorage.setItem("settings", JSON.stringify($(this).serializeArray()));
@@ -74,7 +95,12 @@
        		localStorage.setItem("zip", $('#zip').val());
        		localStorage.setItem("radius", $('#radius').val());
        		localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
+       		localStorage.setItem("theme", $('input:radio[name=theme]:checked').val());
        		gallery.next();
+       		$("#loading").show();
+       		requestTracks();
+       		clearPlaylist();
+       		
         });
 	    if (localStorage) {
 			if (localStorage.detect_location) {
@@ -92,6 +118,9 @@
 			}
 	    	if (localStorage.dates) {
 	    		$('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").attr("checked", true);
+			}
+	    	if (localStorage.theme) {
+	    		$('input:radio[name="theme"]').filter("[value=" + localStorage.theme + "]").attr("checked", true);
 			}
 	    }
 	});

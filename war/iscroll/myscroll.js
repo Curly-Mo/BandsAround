@@ -22,7 +22,7 @@ function init_myScroll() {
 		onBeforeScrollStart: function (e) { e.preventDefault(); },
 		onScrollStart: null,
 		onBeforeScrollMove: null,
-		onScrollMove: scrollMove,
+		onScrollMove: null,
 		onBeforeScrollEnd: null,
 		onScrollEnd: null,
 		onTouchEnd: null,
@@ -70,11 +70,11 @@ function scrollMove(){
 		//this.refresh();
 		//console.log(previousTracks);
 	//}
-	if( this.dirY == 1 && this.y < (this.maxScrollY + 195)){
-		loadTracks(1);
+	if( this.dirY == 1 && this.y < (this.maxScrollY + 39)){
+		loadTracks(10);
 	}
-	if( this.dirY == -1 && this.y > (this.maxScrollY + 390) ){
-		unloadTracks(1);
+	if( this.dirY == -1 && this.y > (-39) && loadedTracks.length > 50){
+		unloadTracks(10);
 	}
 }
 

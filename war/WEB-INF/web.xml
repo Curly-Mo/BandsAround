@@ -8,7 +8,7 @@
 		<url-pattern>/bandsaround</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	<servlet-name>Jambase</servlet-name>
+		<servlet-name>Jambase</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.jambase.JambaseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -16,7 +16,7 @@
 		<url-pattern>/jambase</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	<servlet-name>SoundCloud</servlet-name>
+		<servlet-name>SoundCloud</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.soundcloud.SoundCloudServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -32,7 +32,7 @@
 		<url-pattern>/eventstream</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	<servlet-name>Test</servlet-name>
+		<servlet-name>Test</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.TestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -40,7 +40,7 @@
 		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	<servlet-name>BandWagon</servlet-name>
+		<servlet-name>BandWagon</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.BandWagonServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -48,7 +48,15 @@
 		<url-pattern>/bandwagon</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	<servlet-name>InitChannel</servlet-name>
+		<servlet-name>AsyncTracksRequest</servlet-name>
+		<servlet-class>com.curlymo.bandsaround.AsyncTracksRequestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AsyncTracksRequest</servlet-name>
+		<url-pattern>/asynctracksrequest</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>InitChannel</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.InitChannelServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
