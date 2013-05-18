@@ -11,38 +11,38 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class Geocoder {
 
-	public static String getZipFromLatLng(String latlng) throws JSONException {
-		if(latlng==null || latlng.equals("")){
-			return "92865";
-		}
+    public static String getZipFromLatLng(String latlng) throws JSONException {
+        if(latlng==null || latlng.equals("")){
+            return "92865";
+        }
         String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=";
         url+= latlng;
         url+= "&sensor=false";
         url = url.replace(' ', '+');
         String geoJSON = JSON.getJSON(url, 10000);
         //GeocoderResponseType geoLocationResult = new Gson().fromJson(geoJSON, GeocoderResponseType.class);
-    	ArrayList<InfoPoint> locations = parsePoints(geoJSON);
-    	locations.get(0);
+        ArrayList<InfoPoint> locations = parsePoints(geoJSON);
+        locations.get(0);
         String zip = "00000";
         if(!locations.isEmpty()){
-        	for(HashMap<String, Object> addressComponent : locations.get(0).getAddressFields()){
-        		if((addressComponent.get("types")).equals("[\"postal_code\"]")){
-        			zip = (String) addressComponent.get("long_name");
-        		}
-        	}
+            for(HashMap<String, Object> addressComponent : locations.get(0).getAddressFields()){
+                if((addressComponent.get("types")).equals("[\"postal_code\"]")){
+                    zip = (String) addressComponent.get("long_name");
+                }
+            }
         }
-		return zip;
-	}
-	
-	private static ArrayList<InfoPoint> parsePoints(String strResponse) {
+        return zip;
+    }
+    
+    private static ArrayList<InfoPoint> parsePoints(String strResponse) {
         // TODO Auto-generated method stub
         ArrayList<InfoPoint> result=new ArrayList<InfoPoint>();
         try {
             JSONObject obj=new JSONObject(strResponse);
             JSONArray array=obj.getJSONArray("results");
-            for(int i=0;i<array.length();i++)
+            for(int i=0;i<array.length()||i<1;i++)
             {
-                            InfoPoint point=new InfoPoint();
+                InfoPoint point=new InfoPoint();
 
                 JSONObject item=array.getJSONObject(i);
                 ArrayList<HashMap<String, Object>> tblPoints=new ArrayList<HashMap<String,Object>>();
@@ -52,7 +52,7 @@ public class Geocoder {
                     JSONObject jsonTblPoint=jsonTblPoints.getJSONObject(j);
                     HashMap<String, Object> tblPoint=new HashMap<String, Object>();
                     @SuppressWarnings("unchecked")
-					Iterator<String> keys=jsonTblPoint.keys();
+                    Iterator<String> keys=jsonTblPoint.keys();
                     while(keys.hasNext())
                     {
                         String key=(String) keys.next();

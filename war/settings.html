@@ -22,8 +22,8 @@
             </div>
 
 	<div data-noswipe-wrapper data-role="fieldcontain">
-		<label for="radius">Venues within (miles):</label>
-	 	<input type="number" data-type="range"  name="radius" id="radius" value="20" min="1" max="50" data-highlight="true"  />
+		<label for="radius">Venues within radius (miles):</label>
+	 	<input type="number" data-type="range"  name="radius" id="radius" value="15" min="1" max="50" data-highlight="true"  />
 	</div>
 
 	<div data-role="fieldcontain">
@@ -35,10 +35,10 @@
 	         	<input type="radio" name="dates" id="dates2" value="weekend" />
 	         	<label for="dates2">This Weekend</label>
 	         	
-	         	<input type="radio" name="dates" id="dates3" value="week" />
+	         	<input type="radio" name="dates" id="dates3" value="week" checked="checked"/>
 	         	<label for="dates3">This Week</label>
 
-	         	<input type="radio" name="dates" id="dates4" value="month" checked="checked" />
+	         	<input type="radio" name="dates" id="dates4" value="month" />
 	         	<label for="dates4">This Month</label>
 
 	         	<input type="radio" name="dates" id="dates5" value="3month" />
@@ -98,30 +98,35 @@
        		localStorage.setItem("theme", $('input:radio[name=theme]:checked').val());
        		gallery.next();
        		$("#loading").show();
-       		requestTracks();
+       		requestTracks(0);
        		clearPlaylist();
        		
         });
-	    if (localStorage) {
-			if (localStorage.detect_location) {
-				$("#detect_location").val(localStorage.detect_location);
-				if ($("#detect_location").val() == 'false') {
-					$('.custom_location').slideDown();
-					$('#zip').attr("required", true);
-				}
-			}
-			if (localStorage.zip) {
-				$("#zip").val(localStorage.zip);
-			}
-			if (localStorage.radius) {
-				$("#radius").val(localStorage.radius);
-			}
-	    	if (localStorage.dates) {
-	    		$('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").attr("checked", true);
-			}
-	    	if (localStorage.theme) {
-	    		$('input:radio[name="theme"]').filter("[value=" + localStorage.theme + "]").attr("checked", true);
-			}
-	    }
 	});
+	
+	function loadSettingsValues(){
+      if (localStorage) {
+            if (localStorage.detect_location) {
+                $("#detect_location").val(localStorage.detect_location);
+                if ($("#detect_location").val() == 'false') {
+                    $('.custom_location').slideDown();
+                    $('#zip').attr("required", true);
+                }
+            }
+            if (localStorage.zip) {
+                $("#zip").val(localStorage.zip);
+            }
+            if (localStorage.radius) {
+                $("#radius").val(localStorage.radius);
+            }
+            if (localStorage.dates) {
+                $('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").prop("checked", true);
+                $("input[type='checkbox']").checkboxradio("refresh");
+            }
+            if (localStorage.theme) {
+                $('input:radio[name="theme"]').filter("[value=" + localStorage.theme + "]").prop("checked", true);
+                $("input[type='radio']").checkboxradio("refresh");
+            }
+        }
+	}
 </script>

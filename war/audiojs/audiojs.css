@@ -3,12 +3,9 @@ h1 { color: #444; font-size: 1.2em; padding: 6px 2px 8px; margin: 0px; }
 h1 em { font-style: normal; color: #999; }
 a { color: #888; text-decoration: none; }
 
-ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 100%; border-top: 1px solid #ccc; font-size: 0.9em; }
-ol li { position: relative; text-color: #888; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
-ol li a { display: block; color: #888;padding-left:1.7em;text-indent:-1.7em; }
+ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; width: 100%; }
+ol li {text-indent:-.4em; }
 li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
-li.playing a { color: #000; }
-li.playing:before { content: "\266B"; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
 
 #shortcuts { position: fixed; bottom: 0px; width: 100%; color: #666; font-size: 0.9em; margin: 60px 0px 0px; padding: 20px 20px 15px; background: #f3f3f3; background: rgba(240, 240, 240, 0.7); }
 #shortcuts div { width: 460px; margin: 0px auto; }
@@ -20,7 +17,6 @@ li.playing:before { content: "\266B"; width: 14px; height: 14px; padding: 3px; l
 
 
 ul { padding: 0px; margin: 0px; }
-ol li { position: relative; margin: 0px; }
 
 .audiojs { width: 100%; height: 36px; }
 .audiojs .play-pause { width: 25px; height: 40px;} 

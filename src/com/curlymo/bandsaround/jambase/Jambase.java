@@ -14,9 +14,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 public class Jambase {
-	static String jambaseApiKey="hwxvvh2mtphmygtwce4vtmfm";
+	static String jambaseApiKey="vygs5hney7er4y3wd6b8rhmh";
+	static String jambaseApiKeyAlternate="vygs5hney7er4y3wd6b8rhmh";
 
-	public static Events getEvents(String zip, String radius, int dayStart, int dayEnd) {
+	public static Events getEvents(String zip, String radius, int dayStart, int dayEnd){
+	    return getEvents(zip, radius, dayStart, dayEnd, jambaseApiKey);
+	}
+        public static Events getEventsAlternate(String zip, String radius, int dayStart, int dayEnd){
+            return getEvents(zip, radius, dayStart, dayEnd, jambaseApiKeyAlternate);
+        }
+	
+	public static Events getEvents(String zip, String radius, int dayStart, int dayEnd, String apiKey) {
 		Events events = null;
 		
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -30,7 +38,7 @@ public class Jambase {
 		uriBuilder.append("&startDate=" + dateFormat.format(cal.getTime()));
 		cal.add(Calendar.DATE, dayEnd);
 		uriBuilder.append("&endDate=" + dateFormat.format(cal.getTime()));
-		uriBuilder.append("&apikey=" + jambaseApiKey);
+		uriBuilder.append("&apikey=" + apiKey);
 		String uri = uriBuilder.toString();
 
 		try {

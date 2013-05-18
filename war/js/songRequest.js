@@ -1,53 +1,82 @@
 var initialized=false;
-requestTracks();
+requestTracks(0);
 var pendingTracks = [];
 var alreadyPlayedTracks = [];
 var loadedTracks = [];
 
-function requestTracks(){
+function requestTracks(attempt){
+	if(attempt > 10 || attempt < -10){
+		alert("Sorry =(\n" +
+        		"I'm having trouble handling your request right now.");
+        gallery.goToPage(2);
+        $("#loading").hide();
+		return;
+	}
 	var dayStart = 0;
-	var dayEnd = 14;
-	var tracksPerArtist = 5;
-	var radius = "20";
+	var dayEnd=Math.max(2, 7 - attempt);
+	var tracksPerArtist = Math.max(1, 5 - attempt);
+	var radius = 15 - attempt;
 	var zip;
+	var retry;
+	if(attempt!=0){
+		retry = "true";
+	}
 		
     if (localStorage) {
 		if (localStorage.zip && localStorage.detect_location==="false") {
 			zip=localStorage.getItem("zip");
 		}
 		if (localStorage.radius) {
-			radius = localStorage.getItem("radius");
+			radius = parseInt(localStorage.getItem("radius")) - attempt;
 		}
     	if (localStorage.dates) {
     		dates=getDateRange(localStorage.getItem("dates"));
     		dayStart=dates[0];
-    		dayEnd=dates[1];
+    		dayEnd=1;
+    		if(parseInt(dates[1])>1){
+    			dayEnd=Math.max(2, parseInt(dates[1]) - attempt);
+    		}
 		}
     }
 	
 	$.ajax({
 	    url : "/asynctracksrequest",
 	    dataType : 'json',
-	    data: {dayStart : dayStart, dayEnd : dayEnd, tracksPerArtist : tracksPerArtist, radius: radius, zip: zip},
+	    data: {dayStart : dayStart, dayEnd : dayEnd, tracksPerArtist : tracksPerArtist, radius: radius, zip: zip, retry: retry},
 	    error : function() {
-	        alert("Sorry =(\n" +
+	        /*alert("Sorry =(\n" +
 	        		"Server is busy today. I can't handle such large requests.\n" +
 	        		"I'm working on fixing this. In the meantime you can reduce the Radius or Date Range on the settings page.");
 	        gallery.goToPage(2);
-	        $("#loading").hide();
+	        $("#loading").hide();*/
+	    	$("#loading").innerHtml="Wow, there are a lot of upcoming concerts. Still thinking...";
+	    	requestTracks(attempt+1);
 	    },
 	    success : function(data) {
+	    	if(data.tracks==""){
+	    		$("#loading").innerHtml="Could not find any concerts. Expanding your search...";
+	    		requestTracks(attempt-1);
+	    		return;
+	    	}
 	    	storeTracks(data);
 	    	loadTracks(40);
 	    	$("#loading").hide();
         	updatePlaylist();
+        	$("#listview-wrapper").addClass("ui-page");
+        	$("#tracks").listview("refresh");
+        	$("#listview-wrapper").removeClass("ui-page");
+        	refreshTheme();
 	    }
 	});
 }
 
 function storeTracks(jsonData) {
 	pendingTracks = JSON.parse(JSON.stringify(jsonData.tracks));
-	sessionStorage.setItem("tracks",JSON.stringify(jsonData.tracks));
+	try{
+		sessionStorage.setItem("tracks",JSON.stringify(jsonData.tracks));
+	}catch(e){
+		
+	}
 }
 
 function loadSongsFromStorage() {
@@ -90,6 +119,10 @@ function loadTracks(numToLoad) {
 		myScroll.refresh();
 	}, 100);
 	updatePlaylist();
+	$("#listview-wrapper").addClass("ui-page");
+	$("#tracks").listview("refresh");
+	$("#listview-wrapper").removeClass("ui-page");
+	refreshTheme();
 }
 
 function unloadTracksFromEnd(numToUnload) {

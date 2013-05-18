@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class SoundCloud {
-
+        static String clientID = "84a2392830bf4d00a8fb7557613a36e6";
 	public static User getUser(String artist) throws UnsupportedEncodingException {
 		//Events events = null;
 		Collection<User> users = null;
@@ -24,7 +24,7 @@ public class SoundCloud {
 
 		StringBuilder uriBuilder= new StringBuilder();
 		uriBuilder.append("https://api.soundcloud.com/users.json");
-		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("?client_id=" + clientID);
 		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&order=" + "hotness");
 		uriBuilder.append("&limit=" + "1");
@@ -66,7 +66,7 @@ public class SoundCloud {
 		uriBuilder.append("https://api.soundcloud.com");
 		uriBuilder.append("/users/"+user.getId());
 		uriBuilder.append("/tracks.json");
-		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("?client_id=" + clientID);
 		uriBuilder.append("&order=" + "hotness");
 		uriBuilder.append("&limit=" + "10");
 		String uri = uriBuilder.toString();
@@ -100,7 +100,7 @@ public class SoundCloud {
 		StringBuilder uriBuilder= new StringBuilder();
 		uriBuilder.append("https://api.soundcloud.com");
 		uriBuilder.append("/tracks.json");
-		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("?client_id=" + clientID);
 		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&username=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&order=" + "hotness");
@@ -137,7 +137,7 @@ public class SoundCloud {
 		StringBuilder uriBuilder= new StringBuilder();
 		uriBuilder.append("https://api.soundcloud.com");
 		uriBuilder.append("/tracks.json");
-		uriBuilder.append("?client_id=" + "84a2392830bf4d00a8fb7557613a36e6");
+		uriBuilder.append("?client_id=" + clientID);
 		uriBuilder.append("&q=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&username=" + URLEncoder.encode(artist,"UTF-8"));
 		uriBuilder.append("&order=" + "hotness");
