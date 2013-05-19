@@ -32,8 +32,8 @@ function requestTracks(attempt){
     	if (localStorage.dates) {
     		dates=getDateRange(localStorage.getItem("dates"));
     		dayStart=dates[0];
-    		dayEnd=1;
-    		if(parseInt(dates[1])>1){
+    		dayEnd=parseInt(dates[1]);
+    		if(dayEnd>2){
     			dayEnd=Math.max(2, parseInt(dates[1]) - attempt);
     		}
 		}
@@ -59,7 +59,7 @@ function requestTracks(attempt){
 	    		return;
 	    	}
 	    	storeTracks(data);
-	    	loadTracks(40);
+	    	loadTracks(30);
 	    	$("#loading").hide();
         	updatePlaylist();
         	$("#listview-wrapper").addClass("ui-page");
@@ -111,7 +111,16 @@ function loadTracks(numToLoad) {
 	for (var i = 0; i < numToLoad; i++) {
 		if(i < pendingTracks.length){
 			var track = pendingTracks.pop();
-		    $("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
+			var artworkURL = track.artwork;
+			if(typeof artworkURL === "undefined"){
+				artworkURL="/img/wagon80.png";
+			}
+		    $("<li><a href='#' data-src='"+track.streamURL+"'>"
+		    		+"<img src="+artworkURL+">"
+		    		+"<h3>"+track.artist+"</h3>"
+		    		+"<p>"+track.title+"</p>"
+		    		+"</a></li>")
+		    		.appendTo('#tracks');  
 		    loadedTracks.push(track);
 		}
 	}
@@ -155,15 +164,15 @@ function updatePlaylist(){
 	    // Setup the player to autoplay the next track
 	    var a = audiojs.createAll({
 	      trackEnded: function() {
-	        var next = $('ol li.playing').next();
+	        var next = $('#tracks li.playing').next();
 	        if (next.length) next.click();
 	      }
 	    });
 	
 	    // Load in the first track
 	    audio = a[0];
-	        first = $('ol a').attr('data-src');
-	    $('ol li').first().addClass('playing');
+	        first = $('#tracks a').attr('data-src');
+	    $('#tracks li').first().addClass('playing');
 	    audio.load(first);
 	    $("#title").text($('li.playing').text());
 	
@@ -187,7 +196,7 @@ function updatePlaylist(){
 	}
 	    
     // Load in a track on click
-    $('ol li').unbind().click(function(e) {
+    $('#tracks li').unbind().click(function(e) {
     	var element = this;
 		e.preventDefault();
 		$(this).addClass('playing').siblings().removeClass('playing');
@@ -207,8 +216,8 @@ function manageList(elementPlaying){
 	//if( index > 15){
 	//	unloadTracksFromBeginning(index - 15);
 	//}
-	if( index > $("#tracks li").length - 20){
-		loadTracks(index - ($("#tracks li").length - 20));
+	if( index > $("#tracks li").length - 15){
+		loadTracks(index - ($("#tracks li").length - 15));
 	}
 }
 

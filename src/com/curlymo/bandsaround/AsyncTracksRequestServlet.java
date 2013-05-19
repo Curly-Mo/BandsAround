@@ -97,6 +97,7 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                     if(track.getStreamable().equals("true")){
                         JSONObject json = new JSONObject();
                         json.put("title", track.getTitle());
+                        json.put("artwork", track.getArtwork_url());
                         json.put("artist", trackArtists.get(index).getArtist_name());
                         json.put("artist_id", trackArtists.get(index).getArtist_id());
                         json.put("venue", trackEvents.get(index).getVenue().getVenue_name());
