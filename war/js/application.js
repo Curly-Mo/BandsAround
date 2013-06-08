@@ -40,12 +40,20 @@ $('#mainPage').load('mainPage.html', function() {
     	$("#listview-wrapper").addClass("ui-page");
     	$("#tracks").listview();
     	$("#listview-wrapper").removeClass("ui-page");
-    }, 100);
+    	//if(sessionStorage && sessionStorage.tracks){
+    	//	loadFromSessionStorage();
+	    //}else{
+	    	loadFromLocalStorage();
+	    	requestTracks(0);
+	    //}
+    }, 0);
 });
 
 $('#info').load('info.html', function() {
     setTimeout(function () {
     	init_infoScroll();
+    	var playing = $('li.playing');
+	    loadInfo(playing.attr("name"),playing.attr("data-venue"),playing.attr("data-date"));
     }, 100);
 });
 
@@ -67,6 +75,15 @@ function changeTheme(theme){
 			.addClass('ui-body-' + theme)
 			.attr('data-theme', theme);
     
+    if(theme == "a"){
+    	$("#soundcloud-logo").attr("src", "http://developers.soundcloud.com/assets/powered_by_large_white-de881ecad8561c2131e7676fa9e92738.png");
+    	$("#echonest-logo").attr("src", "http://the.echonest.com/static/img/logos/EN_P_on_Dark_Transparent.png");
+    	$("#jambase-logo").attr("src", "http://images.jambase.com/logos/jambase140x70.gif");
+    }else if(theme == "c"){
+    	$("#soundcloud-logo").attr("src", "http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png");
+    	$("#echonest-logo").attr("src", "http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png");
+    	$("#jambase-logo").attr("src", "http://images.jambase.com/logos/jambase140x70.gif");
+    }
     gallery.refreshSize();
 }
 

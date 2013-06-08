@@ -101,10 +101,11 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                         json.put("artist", trackArtists.get(index).getArtist_name());
                         json.put("artist_id", trackArtists.get(index).getArtist_id());
                         json.put("venue", trackEvents.get(index).getVenue().getVenue_name());
-                        json.put("city", trackEvents.get(index).getVenue().getVenue_city());
-                        json.put("state", trackEvents.get(index).getVenue().getVenue_city());
-                        json.put("zip", trackEvents.get(index).getVenue().getVenue_zip());
+                        //json.put("city", trackEvents.get(index).getVenue().getVenue_city());
+                        //json.put("state", trackEvents.get(index).getVenue().getVenue_state());
+                        //json.put("zip", trackEvents.get(index).getVenue().getVenue_zip());
                         json.put("date", trackEvents.get(index).getEvent_date());
+                        json.put("url", trackEvents.get(index).getEvent_url());
                         json.put("streamURL", track.getStream_url()+"?client_id="+soundCloudApiKey);
                         jsonArray.put(json);
                         }

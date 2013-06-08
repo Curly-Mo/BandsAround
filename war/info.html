@@ -1,18 +1,72 @@
 <div id="info-scroller">
 <ul>
 <li>
-<div id="info-artist"></div>
-<div id="info-venue"></div>
-Coming soon! <br>Information about the band/artist and their upcoming event will go here.
+    *This page still under construction.*<br><br>
+    
+    <h3><label for="info-date">Date:</label>
+    <span id="info-date"></span></h3>
+    <h3><label for="info-venue">Venue:</label>
+    <span id="info-venue"></span></h3>
+    <h3><label for="info-artist">Artist:</label>
+	<span id="info-artist"></span></h3>
+	<img id="info-image" style="max-width:320px;"></img>
+	
+	
 
+
+	<div style="position:absolute;bottom:2px;right:8px;">
+	    <a href="http://soundcloud.com" target="_top" title="SoundCloud">
+	    <img id="soundcloud-logo" src="http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png" alt="SoundCloud" border="0" /></a>
+	    <a href="http://the.echonest.com" title="The Echo Nest">
+	    <img id="echonest-logo" src="http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png" border="0" /></a>
+		<a href="http://www.JamBase.com" target="_top" title="JamBase Concert Search">
+		<img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>
+	</div>
 </li>
 </ul>
 </div>
 
 <script type="text/javascript">
-function loadInfo(artistID, venueName, venueDate){
-	$("#info-artist").innerHTML=artistID;
-	
+function loadInfo(artistID, venue, date){
+	requestArtistInfo(artistID);
+	$("#info-venue").html("<a href='http://maps.google.com/?q="+encodeURIComponent(venue)+"'>"+venue+"</a>");
+	$("#info-date").html(date);
 }
 
+
+
+function requestArtistInfo(artistID){
+	var apiKey = "8C0DI9VHHE8BZSPOP";
+	//var id = "jambase:artist:"+artistID;
+	var name = artistID;
+    $.ajax({
+        url : "http://developer.echonest.com/api/v4/artist/profile",
+        dataType : 'json',
+        data: 
+        	'api_key='+ apiKey +
+        	'&name='+ name +
+        	'&bucket='+ "biographies" +
+        	'&bucket='+ "familiarity" +
+        	'&bucket='+ "hotttnesss" +
+        	'&bucket='+ "images" +
+        	'&bucket='+ "artist_location" +
+        	'&bucket='+ "news" +
+        	'&bucket='+ "reviews" +
+        	'&bucket='+ "urls" +
+        	'&bucket='+ "video" +
+        	'&bucket='+ "years_active" +
+        	'&format='+ "json",
+        error : function() {
+        	
+        },
+        success : function(data) {
+        	var artistProfile = data.response.artist;
+        	if(typeof artistProfile === "undefined"){
+        		return;
+        	}
+            $("#info-artist").html(artistProfile.name);
+            $("#info-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);            
+        }
+    });
+}
 </script>

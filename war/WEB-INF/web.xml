@@ -55,6 +55,24 @@
 		<servlet-name>AsyncTracksRequest</servlet-name>
 		<url-pattern>/asynctracksrequest</url-pattern>
 	</servlet-mapping>
+    <servlet>
+        <servlet-name>EchoNest</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.echonest.EchoNestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EchoNest</servlet-name>
+        <url-pattern>/echonest</url-pattern>
+    </servlet-mapping>
+   
+    <servlet>
+        <servlet-name>ScrapeJambaseEvent</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.jambase.ScrapeJambaseEventServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ScrapeJambaseEvent</servlet-name>
+        <url-pattern>/scrapejambaseevent</url-pattern>
+    </servlet-mapping>    
+    
 	<servlet>
 		<servlet-name>InitChannel</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.InitChannelServlet</servlet-class>

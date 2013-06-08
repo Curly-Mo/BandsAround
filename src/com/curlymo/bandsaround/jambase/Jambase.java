@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 public class Jambase {
-	static String jambaseApiKey="vygs5hney7er4y3wd6b8rhmh";
+	static String jambaseApiKey="hwxvvh2mtphmygtwce4vtmfm";
 	static String jambaseApiKeyAlternate="vygs5hney7er4y3wd6b8rhmh";
 
 	public static Events getEvents(String zip, String radius, int dayStart, int dayEnd){

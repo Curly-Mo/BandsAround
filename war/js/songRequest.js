@@ -1,13 +1,15 @@
 var initialized=false;
-requestTracks(0);
 var pendingTracks = [];
+var allTracks = [];
 var alreadyPlayedTracks = [];
 var loadedTracks = [];
 
+
 function requestTracks(attempt){
 	if(attempt > 10 || attempt < -10){
-		alert("Sorry =(\n" +
-        		"I'm having trouble handling your request right now.");
+		alert("Oh no! Something went wrong. =(\n" +
+        		"I'm having some issues with getting your location.\n" +
+        		"Try turning off 'Auto Detect Location' and manually entering your Zipcode.");
         gallery.goToPage(2);
         $("#loading").hide();
 		return;
@@ -55,55 +57,54 @@ function requestTracks(attempt){
 	    success : function(data) {
 	    	if(data.tracks==""){
 	    		$("#loading").innerHtml="Could not find any concerts. Expanding your search...";
-	    		requestTracks(attempt-1);
+	    		requestTracks(attempt-2);
 	    		return;
 	    	}
 	    	storeTracks(data);
 	    	loadTracks(30);
 	    	$("#loading").hide();
         	updatePlaylist();
-        	$("#listview-wrapper").addClass("ui-page");
-        	$("#tracks").listview("refresh");
-        	$("#listview-wrapper").removeClass("ui-page");
-        	refreshTheme();
+        	refreshListview();
 	    }
 	});
 }
 
 function storeTracks(jsonData) {
-	pendingTracks = JSON.parse(JSON.stringify(jsonData.tracks));
-	try{
-		sessionStorage.setItem("tracks",JSON.stringify(jsonData.tracks));
-	}catch(e){
-		
-	}
-}
-
-function loadSongsFromStorage() {
-	var tracks = JSON.parse(sessionStorage.getItem("tracks"));
-	for (var i in tracks) {
-	    var track = tracks[i];
-	    $("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
-	    loadedTracks.push(track);
-	}
+	var tracks = JSON.stringify(jsonData.tracks);
+	allTracks = JSON.parse(tracks);
+	pendingTracks = allTracks;
 	setTimeout(function () {
-		myScroll.refresh();
-	}, 100);
-	updatePlaylist();
+		sessionStorage.setItem("tracks",tracks);
+		localStorage.setItem("tracks",tracks);
+    }, 0);
 }
 
-function loadSongFromStorage() {
-	var tracks = JSON.parse(sessionStorage.getItem("tracks"));
-	var track = tracks.shift();
-	if(track){
-		$("<li><a href='#' data-src='"+track.streamURL+"'>"+track.artist+" - "+track.title+"</a></li>").appendTo('#tracks');  
-		//sessionStorage.setItem("tracks",JSON.stringify(tracks));
-		loadedTracks.push(track);
-	
-		setTimeout(function () {
-			myScroll.refresh();
-		}, 100);
-		updatePlaylist();
+function loadFromSessionStorage() {
+	allTracks = JSON.parse(sessionStorage.getItem("tracks"));
+	pendingTracks = allTracks;
+	loadTracks(30);
+	$("#loading").hide();
+	updatePlaylist();
+	refreshListview();
+}
+
+function loadFromLocalStorage() {
+	if(localStorage && localStorage.tracks){
+		allTracks = JSON.parse(localStorage.getItem("tracks"));
+		var today = new Date();
+		var len = allTracks.length
+		while (len > 0) {
+			len--;
+			var trackDate = new Date(allTracks[len].date);
+			if(trackDate > today){
+				pendingTracks = allTracks;
+				loadTracks(1);
+				updatePlaylist();
+				refreshListview();
+				return;
+			}
+			pendingTracks.pop();
+		}
 	}
 }
 
@@ -115,7 +116,8 @@ function loadTracks(numToLoad) {
 			if(typeof artworkURL === "undefined"){
 				artworkURL="/img/wagon80.png";
 			}
-		    $("<li><a href='#' data-src='"+track.streamURL+"'>"
+		    $("<li id='"+track.artist_id+"' name='"+track.artist+"' data-venue='"+track.venue+"' data-date='"+track.date
+		    		+"'><a href='#' data-src='"+track.streamURL+"'>"
 		    		+"<img src="+artworkURL+">"
 		    		+"<h3>"+track.artist+"</h3>"
 		    		+"<p>"+track.title+"</p>"
@@ -128,10 +130,7 @@ function loadTracks(numToLoad) {
 		myScroll.refresh();
 	}, 100);
 	updatePlaylist();
-	$("#listview-wrapper").addClass("ui-page");
-	$("#tracks").listview("refresh");
-	$("#listview-wrapper").removeClass("ui-page");
-	refreshTheme();
+	refreshListview();
 }
 
 function unloadTracksFromEnd(numToUnload) {
@@ -166,6 +165,7 @@ function updatePlaylist(){
 	      trackEnded: function() {
 	        var next = $('#tracks li.playing').next();
 	        if (next.length) next.click();
+	        loadInfo(next.attr("name"),next.attr("data-venue"),next.attr("data-date"));
 	      }
 	    });
 	
@@ -198,27 +198,38 @@ function updatePlaylist(){
     // Load in a track on click
     $('#tracks li').unbind().click(function(e) {
     	var element = this;
+    	var index = $("#tracks li").index(this);
 		e.preventDefault();
 		$(this).addClass('playing').siblings().removeClass('playing');
 		audio.load($('a', this).attr('data-src'));
 		audio.play();
-		$("#title").text($('li.playing').text());
-    	manageList(element);
+		$("#title").text($('li.playing').text());	
+    	manageList(index);
     	setTimeout(function () {
     		myScroll.scrollToElement(element, 1000);
+    	    var playing = $('li.playing');
+    	    loadInfo(playing.attr("name"),playing.attr("data-venue"),playing.attr("data-date"));
+    		//sessionStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index)));
+    		//localStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index+1)));
     	}, 100);
     });
     initialized=true;
 }
 
-function manageList(elementPlaying){
-	var index = $("#tracks li:visible").index(elementPlaying);
+function manageList(index){
 	//if( index > 15){
 	//	unloadTracksFromBeginning(index - 15);
 	//}
 	if( index > $("#tracks li").length - 15){
 		loadTracks(index - ($("#tracks li").length - 15));
 	}
+}
+
+function refreshListview(){
+	$("#listview-wrapper").addClass("ui-page");
+	$("#tracks").listview("refresh");
+	$("#listview-wrapper").removeClass("ui-page");
+	refreshTheme();
 }
 
 function getDateRange(dates){
