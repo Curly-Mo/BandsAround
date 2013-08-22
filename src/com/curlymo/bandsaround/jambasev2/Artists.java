@@ -1,4 +1,4 @@
-package com.curlymo.bandsaround.jambase;
+package com.curlymo.bandsaround.jambasev2;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,15 +8,15 @@ import javax.xml.bind.annotation.XmlElement;
 @SuppressWarnings("serial")
 public class Artists implements Serializable{
 
-	List<Artist> Artists;
+	List<Artist> artists;
 	
-	@XmlElement(name="Artist")
+	@XmlElement(name="artist")
     public List<Artist> getArtists() {
-        return Artists;
+        return artists;
     }
     
-    public void setArtists(List<Artist> Artists) {
-    	this.Artists = Artists;
+    public void setArtists(List<Artist> artists) {
+    	this.artists = artists;
     } 
 
 }

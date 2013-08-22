@@ -18,7 +18,7 @@ function requestTracks(attempt){
 	var dayEnd=Math.max(2, 7 - attempt);
 	var tracksPerArtist = Math.max(1, 5 - attempt);
 	var radius = 15 - attempt;
-	var zip;
+	var zip = sessionStorage.getItem("zip");
 	var retry;
 	if(attempt!=0){
 		retry = "true";
@@ -40,6 +40,9 @@ function requestTracks(attempt){
     		}
 		}
     }
+	if(sessionStorage.getItem('zip')){
+    	sessionStorage.setItem('tracksRequestedWithLocation', true);
+	}
 	
 	$.ajax({
 	    url : "/asynctracksrequest",
@@ -116,7 +119,7 @@ function loadTracks(numToLoad) {
 			if(typeof artworkURL === "undefined"){
 				artworkURL="/img/wagon80.png";
 			}
-		    $("<li id='"+track.artist_id+"' name='"+track.artist+"' data-venue='"+track.venue+"' data-date='"+track.date
+		    $("<li id='"+track.artist_id+"' name='"+track.artist+"' data-venue='"+track.venue+"' data-date='"+track.date+"' data-ticketUrl='"+track.ticketUrl
 		    		+"'><a href='#' data-src='"+track.streamURL+"'>"
 		    		+"<img src="+artworkURL+">"
 		    		+"<h3>"+track.artist+"</h3>"
@@ -165,7 +168,7 @@ function updatePlaylist(){
 	      trackEnded: function() {
 	        var next = $('#tracks li.playing').next();
 	        if (next.length) next.click();
-	        loadInfo(next.attr("name"),next.attr("data-venue"),next.attr("data-date"));
+	        loadInfo();
 	      }
 	    });
 	
@@ -207,8 +210,7 @@ function updatePlaylist(){
     	manageList(index);
     	setTimeout(function () {
     		myScroll.scrollToElement(element, 1000);
-    	    var playing = $('li.playing');
-    	    loadInfo(playing.attr("name"),playing.attr("data-venue"),playing.attr("data-date"));
+    	    loadInfo();
     		//sessionStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index)));
     		//localStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index+1)));
     	}, 100);

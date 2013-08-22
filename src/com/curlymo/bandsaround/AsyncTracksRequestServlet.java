@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.curlymo.bandsaround.geocoder.Geocoder;
-import com.curlymo.bandsaround.jambase.Artist;
-import com.curlymo.bandsaround.jambase.Event;
-import com.curlymo.bandsaround.jambase.Events;
-import com.curlymo.bandsaround.jambase.Jambase;
+import com.curlymo.bandsaround.jambasev2.Artist;
+import com.curlymo.bandsaround.jambasev2.Event;
+import com.curlymo.bandsaround.jambasev2.Events;
+import com.curlymo.bandsaround.jambasev2.Jambase;
 import com.curlymo.bandsaround.soundcloud.SoundCloud;
 import com.curlymo.bandsaround.soundcloud.Track;
 import com.google.appengine.api.urlfetch.HTTPResponse;
@@ -44,7 +44,7 @@ public class AsyncTracksRequestServlet extends HttpServlet {
         int dayStart = Integer.parseInt(req.getParameter("dayStart"));
         int dayEnd = Integer.parseInt(req.getParameter("dayEnd"));
         int tracksPerArtist = Integer.parseInt(req.getParameter("tracksPerArtist"));
-        if (zip==null){
+        if (zip==null||zip==""){
             try {
                 zip = Geocoder.getZipFromLatLng(latLng);
                 } catch (JSONException e1) {
@@ -65,6 +65,7 @@ public class AsyncTracksRequestServlet extends HttpServlet {
         if (theEvents!=null){ 
             events = theEvents.getEvents();
             }
+        //out.println(events);
         if (events!=null && !events.isEmpty()){
             Collections.shuffle(events);
             if(events.size()>200){
@@ -101,11 +102,12 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                         json.put("artist", trackArtists.get(index).getArtist_name());
                         json.put("artist_id", trackArtists.get(index).getArtist_id());
                         json.put("venue", trackEvents.get(index).getVenue().getVenue_name());
-                        //json.put("city", trackEvents.get(index).getVenue().getVenue_city());
-                        //json.put("state", trackEvents.get(index).getVenue().getVenue_state());
-                        //json.put("zip", trackEvents.get(index).getVenue().getVenue_zip());
+                        //json.put("address", trackEvents.get(index).getVenue().getVenue_address());
+                        json.put("city", trackEvents.get(index).getVenue().getVenue_city());
+                        //json.put("state", trackEvents.get(index).getVenue().getVenue_stateCode());
+                        json.put("zip", trackEvents.get(index).getVenue().getVenue_zip());
                         json.put("date", trackEvents.get(index).getEvent_date());
-                        json.put("url", trackEvents.get(index).getEvent_url());
+                        json.put("ticketUrl", trackEvents.get(index).getTicket_url());
                         json.put("streamURL", track.getStream_url()+"?client_id="+soundCloudApiKey);
                         jsonArray.put(json);
                         }

@@ -1,4 +1,4 @@
-package com.curlymo.bandsaround.jambase;
+package com.curlymo.bandsaround.jambasev2;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ public class JambaseServlet extends HttpServlet{
 		if (events!=null){
 		    for(Event event : events.getEvents()){
 		    	resp.getWriter().println(event.getEvent_id());
-		    	resp.getWriter().println(event.getEvent_ticketUrl());
+		    	resp.getWriter().println(event.getEvent_url());
 		    	resp.getWriter().println(event.getEvent_date());
 		    	resp.getWriter().println(event.getVenue().getVenue_id());
 		    	resp.getWriter().println(event.getVenue().getVenue_name());

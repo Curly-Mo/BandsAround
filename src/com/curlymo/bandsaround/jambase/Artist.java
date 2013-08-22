@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlElement;
 @SuppressWarnings("serial")
 public class Artist implements Serializable{
 
-	Long artist_id;
-	String artist_name;
+	Long Id;
+	String Name;
 	
 	@XmlElement
     public Long getArtist_id() {
-        return artist_id;
+        return Id;
     }
     
-    public void setArtist_id(Long artist_id) {
-    	this.artist_id = artist_id;
+    public void setArtist_id(Long Id) {
+    	this.Id = Id;
     } 
     
 	@XmlElement
     public String getArtist_name() {
-        return artist_name;
+        return Name;
     }
     
-    public void setArtist_name(String artist_name) {
-    	this.artist_name = artist_name;
+    public void setArtist_name(String Name) {
+    	this.Name = Name;
     } 
 
 }

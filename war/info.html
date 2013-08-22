@@ -5,21 +5,28 @@
     
     <h3><label for="info-date">Date:</label>
     <span id="info-date"></span></h3>
+    
     <h3><label for="info-venue">Venue:</label>
     <span id="info-venue"></span></h3>
+    
+    <h3><label for="info-venue"> </label>
+    <a id="info-tickets" target="_blank"></a></h3>
+    
     <h3><label for="info-artist">Artist:</label>
 	<span id="info-artist"></span></h3>
+	
 	<img id="info-image" style="max-width:320px;"></img>
 	
+	<br><br><br><br>
 	
 
 
 	<div style="position:absolute;bottom:2px;right:8px;">
-	    <a href="http://soundcloud.com" target="_top" title="SoundCloud">
+	    <a href="http://soundcloud.com" target="_blank" title="SoundCloud">
 	    <img id="soundcloud-logo" src="http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png" alt="SoundCloud" border="0" /></a>
-	    <a href="http://the.echonest.com" title="The Echo Nest">
+	    <a href="http://the.echonest.com" target="_blank" title="The Echo Nest">
 	    <img id="echonest-logo" src="http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png" border="0" /></a>
-		<a href="http://www.JamBase.com" target="_top" title="JamBase Concert Search">
+		<a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search">
 		<img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>
 	</div>
 </li>
@@ -27,10 +34,23 @@
 </div>
 
 <script type="text/javascript">
-function loadInfo(artistID, venue, date){
+function loadInfo(){
+    var playing = $('li.playing');
+    var artistID = playing.attr("name");
+    var venue = playing.attr("data-venue");
+    var date = playing.attr("data-date");
+    var ticketUrl = playing.attr("data-ticketUrl");
+
 	requestArtistInfo(artistID);
-	$("#info-venue").html("<a href='http://maps.google.com/?q="+encodeURIComponent(venue)+"'>"+venue+"</a>");
+	$("#info-venue").html("<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"'>"+venue+"</a>");
 	$("#info-date").html(date);
+	if(ticketUrl == "undefined"){
+        $("#info-tickets").text("");
+	}else{
+		$("#info-tickets").text("Buy Tickets Here");
+		$("#info-tickets").attr("href",ticketUrl);
+	}
+	
 }
 
 
@@ -38,7 +58,7 @@ function loadInfo(artistID, venue, date){
 function requestArtistInfo(artistID){
 	var apiKey = "8C0DI9VHHE8BZSPOP";
 	//var id = "jambase:artist:"+artistID;
-	var name = artistID;
+	var name = encodeURIComponent(artistID);
     $.ajax({
         url : "http://developer.echonest.com/api/v4/artist/profile",
         dataType : 'json',
@@ -65,7 +85,9 @@ function requestArtistInfo(artistID){
         		return;
         	}
             $("#info-artist").html(artistProfile.name);
-            $("#info-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);            
+            if(typeof artistProfile.images[0] !== "undefined"){
+                $("#info-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);  
+            }
         }
     });
 }

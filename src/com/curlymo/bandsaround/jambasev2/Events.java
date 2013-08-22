@@ -1,4 +1,4 @@
-package com.curlymo.bandsaround.jambase;
+package com.curlymo.bandsaround.jambasev2;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,18 +7,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("serial")
-@XmlRootElement(name="Response")
+@XmlRootElement(name="JamBase_Data")
 public class Events implements Serializable{
 
-	List<Event> Events;
+	List<Event> events;
 	
-	@XmlElement(name="Events")
+	@XmlElement(name="event")
     public List<Event> getEvents() {
-        return Events;
+        return events;
     }
     
-    public void setEvents(List<Event> Events) {
-    	this.Events = Events;
+    public void setEvents(List<Event> events) {
+    	this.events = events;
     }
 
 }

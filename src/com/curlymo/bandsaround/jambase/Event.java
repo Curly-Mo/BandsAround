@@ -9,59 +9,59 @@ import javax.xml.bind.annotation.XmlElement;
 @SuppressWarnings("serial")
 public class Event implements Serializable {
 
-	long event_id;
-	String event_url;
-	String event_date;
-	Venue venue;
-	Artists artists;
+	long Id;
+	String Date;
+	Venue Venue;
+	Artists Artists;
+        String TicketUrl;
 	
 	@XmlElement
     public long getEvent_id() {
-        return event_id;
+        return Id;
     }
     
-    public void setEvent_id(long event_id) {
-    	this.event_id = event_id;
+    public void setEvent_id(long Id) {
+    	this.Id = Id;
     }
 	
-    @XmlElement(name="artists")
+    @XmlElement(name="Artists")
     public Artists getArtistsObject() {
-        return artists;
+        return Artists;
     }
     
-    public void setArtistsObject(Artists artists) {
-    	this.artists = artists;
+    public void setArtistsObject(Artists Artists) {
+    	this.Artists = Artists;
     }    
 	
 	@XmlElement
-    public String getEvent_url() {
-        return event_url;
+    public String getEvent_ticketUrl() {
+        return TicketUrl;
     }
     
-    public void setEvent_url(String event_url) {
-    	this.event_url = event_url;
+    public void getEvent_ticketUrl(String TicketUrl) {
+    	this.TicketUrl = TicketUrl;
     }  
     
 	@XmlElement
     public String getEvent_date() {
-        return event_date;
+        return Date;
     }
     
-    public void setEvent_date(String event_date) {
-    	this.event_date = event_date;
+    public void setEvent_date(String Date) {
+    	this.Date = Date;
     }  
     
 	@XmlElement
     public Venue getVenue() {
-        return venue;
+        return Venue;
     }
     
-    public void setVenue(Venue venue) {
-    	this.venue = venue;
+    public void setVenue(Venue Venue) {
+    	this.Venue = Venue;
     }  
     
     public List<Artist> getArtists() {
-        return artists.getArtists();
+        return Artists.getArtists();
     }
     
 }

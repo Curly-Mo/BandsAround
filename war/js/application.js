@@ -37,6 +37,7 @@ $('#settings').load('settings.html', function() {
 $('#mainPage').load('mainPage.html', function() {
     setTimeout(function () {
     	init_myScroll();
+    	sessionStorage.setItem('mainPageLoaded', true);
     	$("#listview-wrapper").addClass("ui-page");
     	$("#tracks").listview();
     	$("#listview-wrapper").removeClass("ui-page");
@@ -52,8 +53,7 @@ $('#mainPage').load('mainPage.html', function() {
 $('#info').load('info.html', function() {
     setTimeout(function () {
     	init_infoScroll();
-    	var playing = $('li.playing');
-	    loadInfo(playing.attr("name"),playing.attr("data-venue"),playing.attr("data-date"));
+	    loadInfo();
     }, 100);
 });
 
