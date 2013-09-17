@@ -1,4 +1,4 @@
-if(navigator.geolocation) {
+if(sessionStorage.getItem('detect_location')!='false' && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:1000});
 }
 
