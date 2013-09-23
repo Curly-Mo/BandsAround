@@ -26,8 +26,10 @@
 	    <img id="soundcloud-logo" src="http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png" alt="SoundCloud" border="0" /></a>
 	    <a href="http://the.echonest.com" target="_blank" title="The Echo Nest">
 	    <img id="echonest-logo" src="http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png" border="0" /></a>
-		<a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search">
-		<img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>
+		<a href="http://www.last.fm" target="_blank" title="Last.fm">
+		<img id="lastfm-logo" src="http://cdn.last.fm/flatness/badges/lastfm_grey.gif" alt="Last.fm" border="0" /></a>
+		<!--<a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search">
+        <img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>-->
 	</div>
 </li>
 </ul>
@@ -38,12 +40,12 @@ function loadInfo(){
     var playing = $('li.playing');
     var artistID = playing.attr("name");
     var venue = playing.attr("data-venue");
-    var date = playing.attr("data-date");
+    var date = new Date(playing.attr("data-date"));
     var ticketUrl = playing.attr("data-ticketUrl");
 
 	requestArtistInfo(artistID);
 	$("#info-venue").html("<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"'>"+venue+"</a>");
-	$("#info-date").html(date);
+	$("#info-date").html(date.getDay() + ", " + date.getDate() + ", " + date.getTime());
 	if(ticketUrl == "undefined"){
         $("#info-tickets").text("");
 	}else{

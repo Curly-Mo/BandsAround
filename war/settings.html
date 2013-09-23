@@ -26,7 +26,7 @@
 	 	<input type="number" data-type="range"  name="radius" id="radius" value="15" min="1" max="50" data-highlight="true"  />
 	</div>
 
-	<div data-role="fieldcontain">
+	<!-- <div data-role="fieldcontain">
 	    <fieldset data-role="controlgroup" data-type="horizontal">
 	    	<legend>Date Range:</legend>
 	    		<input type="radio" name="dates" id="dates1" value="tonight" />
@@ -44,7 +44,7 @@
 	         	<input type="radio" name="dates" id="dates5" value="3month" />
 	         	<label for="dates5">Next 3 Months</label>
 	    </fieldset>
-	</div>
+	</div> -->
 	
 	<div data-role="fieldcontain">
 	    <fieldset data-role="controlgroup" data-type="horizontal">
@@ -94,7 +94,7 @@
        		localStorage.setItem("detect_location", $('#detect_location').val());
        		localStorage.setItem("zip", $('#zip').val());
        		localStorage.setItem("radius", $('#radius').val());
-       		localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
+       		//localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
        		localStorage.setItem("theme", $('input:radio[name=theme]:checked').val());
        		gallery.next();
        		$("#loading").show();
@@ -119,10 +119,10 @@
             if (localStorage.radius) {
                 $("#radius").val(localStorage.radius);
             }
-            if (localStorage.dates) {
+            /*if (localStorage.dates) {
                 $('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").prop("checked", true);
                 $("input[type='checkbox']").checkboxradio("refresh");
-            }
+            }*/
             if (localStorage.theme) {
                 $('input:radio[name="theme"]').filter("[value=" + localStorage.theme + "]").prop("checked", true);
                 $("input[type='radio']").checkboxradio("refresh");

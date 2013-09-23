@@ -14,16 +14,18 @@ function requestTracks(attempt){
         $("#loading").hide();
 		return;
 	}
-	var dayStart = 0;
-	var dayEnd=Math.max(2, 7 - attempt);
+	//var dayStart = 0;
+	//var dayEnd=Math.max(2, 7 - attempt);
 	var tracksPerArtist = Math.max(1, 5 - attempt);
 	var radius = 15 - attempt;
-	var zip = sessionStorage.getItem("zip");
 	var retry;
 	if(attempt!=0){
 		retry = "true";
 	}
-		
+	
+	var latitude = sessionStorage.getItem("latitude");
+	var longitude = sessionStorage.getItem("longitude");
+	var zip;	
     if (localStorage) {
 		if (localStorage.zip && localStorage.detect_location==="false") {
 			zip=localStorage.getItem("zip");
@@ -31,23 +33,23 @@ function requestTracks(attempt){
 		if (localStorage.radius) {
 			radius = parseInt(localStorage.getItem("radius")) - attempt;
 		}
-    	if (localStorage.dates) {
+    	/*if (localStorage.dates) {
     		dates=getDateRange(localStorage.getItem("dates"));
     		dayStart=dates[0];
     		dayEnd=parseInt(dates[1]);
     		if(dayEnd>2){
     			dayEnd=Math.max(2, parseInt(dates[1]) - attempt);
     		}
-		}
+		}*/
     }
-	if(sessionStorage.getItem('zip')){
+	if(sessionStorage.getItem('latitude')){
     	sessionStorage.setItem('tracksRequestedWithLocation', true);
 	}
 	
 	$.ajax({
 	    url : "/asynctracksrequest",
 	    dataType : 'json',
-	    data: {dayStart : dayStart, dayEnd : dayEnd, tracksPerArtist : tracksPerArtist, radius: radius, zip: zip, retry: retry},
+	    data: {tracksPerArtist : tracksPerArtist, radius: radius, latitude: latitude, longitude: longitude, zip: zip, retry: retry/*, dayStart : dayStart, dayEnd : dayEnd*/},
 	    error : function() {
 	        /*alert("Sorry =(\n" +
 	        		"Server is busy today. I can't handle such large requests.\n" +

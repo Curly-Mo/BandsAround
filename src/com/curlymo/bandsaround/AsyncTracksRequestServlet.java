@@ -5,8 +5,6 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -16,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.curlymo.bandsaround.geocoder.Geocoder;
-import com.curlymo.bandsaround.jambasev2.Artist;
-import com.curlymo.bandsaround.jambasev2.Event;
-import com.curlymo.bandsaround.jambasev2.Events;
-import com.curlymo.bandsaround.jambasev2.Jambase;
+import com.curlymo.bandsaround.geocoder.LatLng;
+import com.curlymo.bandsaround.lastfm.Event;
+import com.curlymo.bandsaround.lastfm.Geo;
+import com.curlymo.bandsaround.lastfm.PaginatedResult;
 import com.curlymo.bandsaround.soundcloud.SoundCloud;
 import com.curlymo.bandsaround.soundcloud.Track;
 import com.google.appengine.api.urlfetch.HTTPResponse;
@@ -35,53 +33,67 @@ import com.google.gson.reflect.TypeToken;
 @SuppressWarnings("serial")
 public class AsyncTracksRequestServlet extends HttpServlet {
     String soundCloudApiKey="84a2392830bf4d00a8fb7557613a36e6";
+    String lastFMApiKey = "812ddaf7105675342e456ebf4eab4e92";
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
-        String latLng = req.getHeader("X-AppEngine-CityLatLong");
-        String zip = req.getParameter("zip");
-        String retry = req.getParameter("retry");
+        //long start = System.currentTimeMillis();
+        //String retry = req.getParameter("retry");
+        //int dayStart = Integer.parseInt(req.getParameter("dayStart"));
+        //int dayEnd = Integer.parseInt(req.getParameter("dayEnd"));
         String radius = req.getParameter("radius");
-        int dayStart = Integer.parseInt(req.getParameter("dayStart"));
-        int dayEnd = Integer.parseInt(req.getParameter("dayEnd"));
-        int tracksPerArtist = Integer.parseInt(req.getParameter("tracksPerArtist"));
-        if (zip==null||zip==""){
-            try {
-                zip = Geocoder.getZipFromLatLng(latLng);
-                } catch (JSONException e1) {
-                } catch (IndexOutOfBoundsException e1) {
-                }
+        if(radius==null){radius="30";}
+        int tracksPerArtist = 10;
+        if(req.getParameter("tracksPerArtist")!=null){
+            tracksPerArtist = Integer.parseInt(req.getParameter("tracksPerArtist"));
+        }
+
+        double latitude = 0;
+        double longitude = 0;
+        String zip = req.getParameter("zip");
+        if(zip == null){
+            String lat = req.getParameter("latitude");
+            String lng = req.getParameter("longitude");
+            if(lat == null || lng == null){
+                String latLng = req.getHeader("X-AppEngine-CityLatLong");
+                lat = latLng.split(",")[0];
+                lng = latLng.split(",")[1];
             }
+            latitude = Double.parseDouble(lat);
+            longitude = Double.parseDouble(lng);
+        }else{
+            LatLng latlng = null;
+            try {
+                latlng = Geocoder.getLatLngFromAddress(zip);
+                latitude = latlng.getLat();
+                longitude = latlng.getLng();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
         ArrayList<Future<HTTPResponse>> asyncResponses = new ArrayList<Future<HTTPResponse>>();
-        ArrayList<Artist> trackArtists = new ArrayList<Artist>();
+        ArrayList<String> trackArtists = new ArrayList<String>();
         ArrayList<Event> trackEvents = new ArrayList<Event>();
-        Events theEvents;
+        /*Events theEvents;
         if(retry==null){
             theEvents = Jambase.getEvents(zip, radius, dayStart, dayEnd);
         }else{
             theEvents = Jambase.getEventsAlternate(zip, radius, dayStart, dayEnd);
-        }
-        List<Event> events = null;
-        if (theEvents!=null){ 
-            events = theEvents.getEvents();
+        }*/
+        //out.println("Initial: " + (System.currentTimeMillis() - start));
+        PaginatedResult<Event> events = Geo.getEvents(latitude, longitude, radius, 1, 100, lastFMApiKey);
+        //out.println("gotEvents: " + (System.currentTimeMillis() - start));
+        for(Event event : events.getPageResults()){
+            for(String artist : event.getArtists()){
+                URL url = SoundCloud.getTracksURLByTrackSearch(artist, tracksPerArtist);
+                Future<HTTPResponse> responseFuture = fetcher.fetchAsync(url);
+                asyncResponses.add(responseFuture);
+                trackArtists.add(artist);
+                trackEvents.add(event);
             }
-        //out.println(events);
-        if (events!=null && !events.isEmpty()){
-            Collections.shuffle(events);
-            if(events.size()>200){
-                events = events.subList(0, 200);
-                }
-            for(Event event : events){
-                for(Artist artist : event.getArtists()){
-                    URL url = SoundCloud.getTracksURLByTrackSearch(artist.getArtist_name(), tracksPerArtist);
-                    Future<HTTPResponse> responseFuture = fetcher.fetchAsync(url);
-                    asyncResponses.add(responseFuture);
-                    trackArtists.add(artist);
-                    trackEvents.add(event);
-                    }
-                }
         }
-        
+        //out.println("parsedTracks: " + (System.currentTimeMillis() - start));
         int index=0;
         JSONArray jsonArray = new JSONArray();
         for(Future<HTTPResponse> future : asyncResponses){
@@ -93,21 +105,20 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                 Gson gson = new Gson();
                 Type collectionType = new TypeToken<Collection<Track>>(){}.getType();
                 tracks = gson.fromJson(new String(response.getContent(), "UTF-8"), collectionType);
-        			
+                                
                 for(Track track : tracks){
                     if(track.getStreamable().equals("true")){
                         JSONObject json = new JSONObject();
                         json.put("title", track.getTitle());
                         json.put("artwork", track.getArtwork_url());
-                        json.put("artist", trackArtists.get(index).getArtist_name());
-                        json.put("artist_id", trackArtists.get(index).getArtist_id());
-                        json.put("venue", trackEvents.get(index).getVenue().getVenue_name());
+                        json.put("artist", trackArtists.get(index));
+                        json.put("venue", trackEvents.get(index).getVenue().getName());
                         //json.put("address", trackEvents.get(index).getVenue().getVenue_address());
-                        json.put("city", trackEvents.get(index).getVenue().getVenue_city());
+                        json.put("city", trackEvents.get(index).getVenue().getCity());
                         //json.put("state", trackEvents.get(index).getVenue().getVenue_stateCode());
-                        json.put("zip", trackEvents.get(index).getVenue().getVenue_zip());
-                        json.put("date", trackEvents.get(index).getEvent_date());
-                        json.put("ticketUrl", trackEvents.get(index).getTicket_url());
+                        json.put("zip", trackEvents.get(index).getVenue().getPostal());
+                        json.put("date", trackEvents.get(index).getStartDate());
+                        json.put("ticketUrl", trackEvents.get(index).getWebsite());
                         json.put("streamURL", track.getStream_url()+"?client_id="+soundCloudApiKey);
                         jsonArray.put(json);
                         }
@@ -119,22 +130,21 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                 } catch (JsonSyntaxException e) {
                     // Soundcloud service unavailable
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                 e.printStackTrace();
                 }
             index++;
             }
-    		
+                
         JSONObject json = new JSONObject();
         try {
             json.put("tracks",shuffleJsonArray(jsonArray));
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    		
+                
+        //out.println("parsedJson: " + (System.currentTimeMillis() - start));
+        //out.println("size: " + jsonArray.length());
         resp.setContentType("application/json");
-        out = resp.getWriter();
         out.print(json.toString());
         out.flush();
         }

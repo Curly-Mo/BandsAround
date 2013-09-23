@@ -28,6 +28,9 @@ public class Event implements Serializable {
 	private List<Performance> performance;
 	private String id;
 	private double popularity;
+	private NamedItem series;
+	private SkTime end;
+	private String status;
 		
 	public String getDisplayName() {
 		return displayName;
@@ -83,6 +86,25 @@ public class Event implements Serializable {
 	public void setPopularity(double popularity) {
 		this.popularity = popularity;
 	}
+	public NamedItem getSeries() {
+	    return series;
+	}
+	public void setSeries(NamedItem series) {
+	    this.series = series;
+	}
+	public SkTime getEnd() {
+	    return end;
+	}
+	public void setEnd(SkTime end) {
+	    this.end = end;
+	}
+	public String getStatus() {
+	    return status;
+	}
+	public void setStatus(String status) {
+	    this.status = status;
+	}
+	        
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,6 +180,6 @@ public class Event implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	
 }

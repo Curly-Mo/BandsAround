@@ -8,6 +8,7 @@ import com.curlymo.bandsaround.json.JSON;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
 
 public class Geocoder {
 
@@ -32,6 +33,21 @@ public class Geocoder {
             }
         }
         return zip;
+    }
+    
+    public static LatLng getLatLngFromAddress(String address) throws JSONException {
+        if(address==null || address.equals("")){
+            return new LatLng();
+        }
+        String url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+        url+= address;
+        url+= "&sensor=false";
+        url = url.replace(' ', '+');
+        String geoJSON = JSON.getJSON(url, 10000);
+        GeocoderResponseType geoLocationResult = new Gson().fromJson(geoJSON, GeocoderResponseType.class);
+        LatLng latlng = geoLocationResult.getResults().get(0).getGeometry().getLocation();
+        
+        return latlng;
     }
     
     private static ArrayList<InfoPoint> parsePoints(String strResponse) {

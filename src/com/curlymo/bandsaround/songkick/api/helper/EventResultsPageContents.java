@@ -11,12 +11,15 @@
  */ 
 package com.curlymo.bandsaround.songkick.api.helper;
 
+import com.curlymo.bandsaround.songkick.api.objects.ClientLocation;
+
 public class EventResultsPageContents extends ResultsPageContents {
 
 	private EventResults results;
 	private int totalEntries;
 	private int perPage;
 	private int page;
+	private ClientLocation clientLocation;
 	
 	public Results getResults() {
 		return results;
@@ -41,6 +44,13 @@ public class EventResultsPageContents extends ResultsPageContents {
 	}
 	public void setPage(int page) {
 		this.page = page;
-	}	
+	}
+        public ClientLocation getClientLocation() {
+            return clientLocation;
+        }
+        public void setClientLocation(ClientLocation clientLocation) {
+            this.clientLocation = clientLocation;
+        }	
+	
 	
 }

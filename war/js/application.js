@@ -78,11 +78,11 @@ function changeTheme(theme){
     if(theme == "a"){
     	$("#soundcloud-logo").attr("src", "http://developers.soundcloud.com/assets/powered_by_large_white-de881ecad8561c2131e7676fa9e92738.png");
     	$("#echonest-logo").attr("src", "http://the.echonest.com/static/img/logos/EN_P_on_Dark_Transparent.png");
-    	$("#jambase-logo").attr("src", "http://images.jambase.com/logos/jambase140x70.gif");
+    	$("#lastfm-logo").attr("src", "http://cdn.last.fm/flatness/badges/lastfm_black.gif");
     }else if(theme == "c"){
     	$("#soundcloud-logo").attr("src", "http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png");
     	$("#echonest-logo").attr("src", "http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png");
-    	$("#jambase-logo").attr("src", "http://images.jambase.com/logos/jambase140x70.gif");
+    	$("#lastfm-logo").attr("src", "http://cdn.last.fm/flatness/badges/lastfm_grey.gif");
     }
     gallery.refreshSize();
 }

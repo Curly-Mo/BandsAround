@@ -5,11 +5,16 @@ if(sessionStorage.getItem('detect_location')!='false' && navigator.geolocation) 
 function foundLocation(position) {
 	var latitude = position.coords.latitude;
 	var longitude = position.coords.longitude;
-	//sessionStorage.setItem('latitude', latitude);
-	//sessionStorage.setItem('longitude', longitude);
+	sessionStorage.setItem('latitude', latitude);
+	sessionStorage.setItem('longitude', longitude);
+	if(!sessionStorage.getItem('tracksRequestedWithLocation')){
+		requestTracks(0);
+		clearPlaylist();
+	}
+	
 	//sessionStorage.setItem('zip', position.address.postalCode);
 
-	$.ajax({
+	/*$.ajax({
 	    url : "http://api.geonames.org/findNearbyPostalCodesJSON",
 	    dataType : 'json',
 	    data: {lat : latitude, lng : longitude, username : "CurlyMo"},
@@ -24,7 +29,7 @@ function foundLocation(position) {
 	    		clearPlaylist();
 	    	}
 	    }
-	});
+	});*/
 }
 
 function noLocation(){

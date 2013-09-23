@@ -32,13 +32,21 @@
 		<url-pattern>/eventstream</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>Test</servlet-name>
+	<servlet-name>Test</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.TestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Test</servlet-name>
 		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
+	   <servlet>
+        <servlet-name>Test2</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.Test2Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Test2</servlet-name>
+        <url-pattern>/test2</url-pattern>
+    </servlet-mapping>
 	<servlet>
 		<servlet-name>BandWagon</servlet-name>
 		<servlet-class>com.curlymo.bandsaround.BandWagonServlet</servlet-class>
