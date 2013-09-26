@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.curlymo.bandsaround.geocoder.Geocoder;
-import com.curlymo.bandsaround.geocoder.LatLng;
 import com.curlymo.bandsaround.lastfm.Event;
 import com.curlymo.bandsaround.lastfm.Geo;
 import com.curlymo.bandsaround.lastfm.PaginatedResult;
@@ -49,34 +47,21 @@ public class AsyncTracksRequestServlet extends HttpServlet {
 
         double latitude = 0;
         double longitude = 0;
-        String zip = req.getParameter("zip");
-        if(zip == null){
-            String lat = req.getParameter("latitude");
-            String lng = req.getParameter("longitude");
-            if(lat == null || lng == null){
-                String latLng = req.getHeader("X-AppEngine-CityLatLong");
-                lat = latLng.split(",")[0];
-                lng = latLng.split(",")[1];
-            }
-            latitude = Double.parseDouble(lat);
-            longitude = Double.parseDouble(lng);
-        }else{
-            LatLng latlng = null;
-            try {
-                latlng = Geocoder.getLatLngFromAddress(zip);
-                latitude = latlng.getLat();
-                longitude = latlng.getLng();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        String lat = req.getParameter("latitude");
+        String lng = req.getParameter("longitude");
+        if(lat == "" || lng == ""){
+            String latLng = req.getHeader("X-AppEngine-CityLatLong");
+            lat = latLng.split(",")[0];
+            lng = latLng.split(",")[1];
         }
+        latitude = Double.parseDouble(lat);
+        longitude = Double.parseDouble(lng);
 
         URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
         ArrayList<Future<HTTPResponse>> asyncResponses = new ArrayList<Future<HTTPResponse>>();
         ArrayList<String> trackArtists = new ArrayList<String>();
         ArrayList<Event> trackEvents = new ArrayList<Event>();
-        /*Events theEvents;
-        if(retry==null){
+        /*if(retry==null){
             theEvents = Jambase.getEvents(zip, radius, dayStart, dayEnd);
         }else{
             theEvents = Jambase.getEventsAlternate(zip, radius, dayStart, dayEnd);
@@ -108,19 +93,28 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                                 
                 for(Track track : tracks){
                     if(track.getStreamable().equals("true")){
+                        JSONObject venue = new JSONObject();
+                        venue.put("name", trackEvents.get(index).getVenue().getName());
+                        venue.put("latitude", trackEvents.get(index).getVenue().getLatitude());
+                        venue.put("longitude", trackEvents.get(index).getVenue().getLongitude());
+                        venue.put("image", trackEvents.get(index).getVenue().getImageURL(null));
+                        venue.put("phone", trackEvents.get(index).getVenue().getPhonenumber());
+
                         JSONObject json = new JSONObject();
+                        json.put("venue", venue);
                         json.put("title", track.getTitle());
                         json.put("artwork", track.getArtwork_url());
                         json.put("artist", trackArtists.get(index));
-                        json.put("venue", trackEvents.get(index).getVenue().getName());
-                        //json.put("address", trackEvents.get(index).getVenue().getVenue_address());
-                        json.put("city", trackEvents.get(index).getVenue().getCity());
-                        //json.put("state", trackEvents.get(index).getVenue().getVenue_stateCode());
-                        json.put("zip", trackEvents.get(index).getVenue().getPostal());
+                        json.put("eventTitle", trackEvents.get(index).getTitle());
                         json.put("date", trackEvents.get(index).getStartDate());
                         json.put("ticketUrl", trackEvents.get(index).getWebsite());
                         json.put("streamURL", track.getStream_url()+"?client_id="+soundCloudApiKey);
                         jsonArray.put(json);
+                        //json.put("venue", trackEvents.get(index).getVenue().getName());
+                        //json.put("address", trackEvents.get(index).getVenue().getVenue_address());
+                        //json.put("city", trackEvents.get(index).getVenue().getCity());
+                        //json.put("state", trackEvents.get(index).getVenue().getVenue_stateCode());
+                        //json.put("zip", trackEvents.get(index).getVenue().getPostal());
                         }
                     }
                 } catch (InterruptedException e) {

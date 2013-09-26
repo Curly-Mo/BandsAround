@@ -1,22 +1,32 @@
 <div id="info-scroller">
 <ul>
 <li>
-    *This page still under construction.*<br><br>
     
-    <h3><label for="info-date">Date:</label>
-    <span id="info-date"></span></h3>
+    <h2><label for="info-title"></label>
+    <span id="info-title"></span></h2>
     
-    <h3><label for="info-venue">Venue:</label>
-    <span id="info-venue"></span></h3>
+    <h2><span id="info-venue"></span></h2>
     
-    <h3><label for="info-venue"> </label>
-    <a id="info-tickets" target="_blank"></a></h3>
+    <h3><span id="info-date"></span></h3>    
     
-    <h3><label for="info-artist">Artist:</label>
-	<span id="info-artist"></span></h3>
+    <h3><a id="info-tickets" target="_blank"></a></h3>
+    
+    <!-- <h3><label for="info-phone"></label>
+    <a id="info-phone" target="_blank"></a></h3> -->
+        
+    <div data-role="collapsible" data-collapsed="false" data-theme="c" data-content-theme="c" style="border:0;padding:0;margin:0;">    
+	    <h2><span id="info-artist"></span></h2>
+	    <div id="info-artist-bio-wrapper" data-role="collapsible" data-collapsed="false" data-inset="false" data-theme="c" data-content-theme="c">    
+	       <h3>Bio</h3>
+	       <span id="info-artist-bio"></span>
+	    </div>
+		<img id="info-artist-image" style="max-width:320px;"></img>
+	</div>
 	
-	<img id="info-image" style="max-width:320px;"></img>
-	
+    <div data-role="collapsible" data-theme="c" data-content-theme="c">    
+	   <h2>Next Artist</h2>
+    </div>
+    
 	<br><br><br><br>
 	
 
@@ -36,21 +46,64 @@
 </div>
 
 <script type="text/javascript">
+function getBestBio(bios) {
+    var best = null;
+    if (bios.length > 0) {
+        best = bios[0];
+        for (var i = 0; i < bios.length; i++) {
+            if (bios[i].site == 'wikipedia') {
+                best = bios[i];
+            }
+        }
+    }
+    return best;
+}
+
+
+function getHumanDate(date){
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var sup = "";
+
+    switch(date.getDate()){
+        case 1: case 21: case 31: sup="st"; break;
+        case 2: case 22: sup="nd"; break;
+        case 3: case 23: sup="rd"; break;
+        default: sup="th";
+    }
+
+    var returnString = days[date.getDay()] + ", " + months[date.getMonth()] + " " + date.getDate() + "<sup>" + sup + "</sup>";
+    return returnString;
+}
+
 function loadInfo(){
     var playing = $('li.playing');
     var artistID = playing.attr("name");
+    var eventTitle = playing.attr("data-eventTitle");
     var venue = playing.attr("data-venue");
+    var venueLat = playing.attr("data-venueLat");
+    var venueLng = playing.attr("data-venueLng");
+    var venuePhone = playing.attr("data-venuePhone");
     var date = new Date(playing.attr("data-date"));
     var ticketUrl = playing.attr("data-ticketUrl");
 
 	requestArtistInfo(artistID);
-	$("#info-venue").html("<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"'>"+venue+"</a>");
-	$("#info-date").html(date.getDay() + ", " + date.getDate() + ", " + date.getTime());
-	if(ticketUrl == "undefined"){
+    $("#info-title").html(eventTitle);
+	$("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&near="+venueLat+","+venueLng+"'>"+venue+"</a>");
+	$("#info-date").html(getHumanDate(date) );
+	if(ticketUrl == "" || ticketUrl == "undefined"){
         $("#info-tickets").text("");
+        $("#info-tickets").attr("href","");
 	}else{
 		$("#info-tickets").text("Buy Tickets Here");
 		$("#info-tickets").attr("href",ticketUrl);
+	}
+	if(venuePhone == "" || venuePhone == "undefined"){
+		$("#info-phone").text("");
+	    $("#info-phone").attr("href","");
+	}else{
+	    $("#info-phone").text(venuePhone);
+	    $("#info-phone").attr("href","tel:"+venuePhone);
 	}
 	
 }
@@ -77,6 +130,7 @@ function requestArtistInfo(artistID){
         	'&bucket='+ "urls" +
         	'&bucket='+ "video" +
         	'&bucket='+ "years_active" +
+        	'&bucket='+ "terms" +
         	'&format='+ "json",
         error : function() {
         	
@@ -88,9 +142,15 @@ function requestArtistInfo(artistID){
         	}
             $("#info-artist").html(artistProfile.name);
             if(typeof artistProfile.images[0] !== "undefined"){
-                $("#info-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);  
+                $("#info-artist-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);  
+            }
+            if(typeof artistProfile.biographies[0] !== "undefined"){
+            	$("#info-artist-bio").html(getBestBio(artistProfile.biographies).text);
             }
         }
     });
 }
+
+
+
 </script>

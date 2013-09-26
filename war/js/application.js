@@ -52,8 +52,14 @@ $('#mainPage').load('mainPage.html', function() {
 
 $('#info').load('info.html', function() {
     setTimeout(function () {
+    	$("#info").trigger("create");
+    	$("#artist-detail").attr("data-role","listview");
+    	$("#artist-collapsible").addClass("ui-page");
+    	$("#artist-detail").listview();
+    	$("#artist-collapsible").removeClass("ui-page");
     	init_infoScroll();
 	    loadInfo();
+	    refreshTheme();
     }, 100);
 });
 
@@ -63,6 +69,9 @@ function changeTheme(theme){
 			.addClass('ui-body-' + theme)
 			.attr('data-theme', theme);
     $(".ui-btn-down-a, .ui-btn-down-b, .ui-btn-down-c, .ui-btn-down-d, .ui-btn-down-e")
+		    .removeClass('ui-btn-down-a ui-btn-down-b ui-btn-down-c ui-btn-down-d ui-btn-down-e')
+			.addClass('ui-btn-down-' + theme);
+    $(".data-t, .ui-btn-down-b, .ui-btn-down-c, .ui-btn-down-d, .ui-btn-down-e")
 		    .removeClass('ui-btn-down-a ui-btn-down-b ui-btn-down-c ui-btn-down-d ui-btn-down-e')
 			.addClass('ui-btn-down-' + theme);
 	//reset all the buttons widgets

@@ -31,7 +31,12 @@ package com.curlymo.bandsaround.lastfm;
  */
 public class CallException extends RuntimeException {
 
-	public CallException() {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -6480622742295877142L;
+
+    public CallException() {
 	}
 
 	public CallException(Throwable cause) {

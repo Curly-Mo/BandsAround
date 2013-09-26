@@ -6,7 +6,12 @@ var loadedTracks = [];
 
 
 function requestTracks(attempt){
-	if(attempt > 10 || attempt < -10){
+	preProcessRequest(attempt);
+	processRequest();
+}
+
+function preProcessRequest(attempt){
+	if(attempt > 1 || attempt < -1){
 		alert("Oh no! Something went wrong. =(\n" +
         		"I'm having some issues with getting your location.\n" +
         		"Try turning off 'Auto Detect Location' and manually entering your Zipcode.");
@@ -14,10 +19,23 @@ function requestTracks(attempt){
         $("#loading").hide();
 		return;
 	}
+    if (localStorage && localStorage.zip && localStorage.detect_location==="false") {
+		zip=localStorage.getItem("zip");
+		getLatLngFromAddress(zip);
+    }else{
+    	if(sessionStorage.getItem('latitude')){
+        	sessionStorage.setItem('tracksRequestedWithLocation', true);
+    	}
+    	processRequest(attempt);
+    }
+}
+
+
+function processRequest(attempt){
 	//var dayStart = 0;
 	//var dayEnd=Math.max(2, 7 - attempt);
-	var tracksPerArtist = Math.max(1, 5 - attempt);
-	var radius = 15 - attempt;
+	var tracksPerArtist = 5;
+	var radius = 30;
 	var retry;
 	if(attempt!=0){
 		retry = "true";
@@ -25,13 +43,9 @@ function requestTracks(attempt){
 	
 	var latitude = sessionStorage.getItem("latitude");
 	var longitude = sessionStorage.getItem("longitude");
-	var zip;	
     if (localStorage) {
-		if (localStorage.zip && localStorage.detect_location==="false") {
-			zip=localStorage.getItem("zip");
-		}
 		if (localStorage.radius) {
-			radius = parseInt(localStorage.getItem("radius")) - attempt;
+			radius = (parseInt(localStorage.getItem("radius"))*1.6) - attempt;
 		}
     	/*if (localStorage.dates) {
     		dates=getDateRange(localStorage.getItem("dates"));
@@ -42,14 +56,11 @@ function requestTracks(attempt){
     		}
 		}*/
     }
-	if(sessionStorage.getItem('latitude')){
-    	sessionStorage.setItem('tracksRequestedWithLocation', true);
-	}
-	
+
 	$.ajax({
 	    url : "/asynctracksrequest",
 	    dataType : 'json',
-	    data: {tracksPerArtist : tracksPerArtist, radius: radius, latitude: latitude, longitude: longitude, zip: zip, retry: retry/*, dayStart : dayStart, dayEnd : dayEnd*/},
+	    data: {tracksPerArtist : tracksPerArtist, radius: radius, latitude: latitude, longitude: longitude, retry: retry/*, dayStart : dayStart, dayEnd : dayEnd*/},
 	    error : function() {
 	        /*alert("Sorry =(\n" +
 	        		"Server is busy today. I can't handle such large requests.\n" +
@@ -121,7 +132,7 @@ function loadTracks(numToLoad) {
 			if(typeof artworkURL === "undefined"){
 				artworkURL="/img/wagon80.png";
 			}
-		    $("<li id='"+track.artist_id+"' name='"+track.artist+"' data-venue='"+track.venue+"' data-date='"+track.date+"' data-ticketUrl='"+track.ticketUrl
+		    $("<li name='"+track.artist+"' data-date='"+track.date+"' data-ticketUrl='"+track.ticketUrl+"' data-venue='"+track.venue.name+"' data-venueLat='"+track.venue.latitude+"' data-venueLng='"+track.venue.longitude+"' data-venuePhone='"+track.venue.phone+"' data-eventTitle='"+track.eventTitle
 		    		+"'><a href='#' data-src='"+track.streamURL+"'>"
 		    		+"<img src="+artworkURL+">"
 		    		+"<h3>"+track.artist+"</h3>"
@@ -265,6 +276,20 @@ function getDateRange(dates){
 
 function clearPlaylist(){
 	$('#tracks li:not(.playing)').remove();
-	myScroll.refresh();
+	if(myScroll){
+		myScroll.refresh();
+	}
 }
 
+function getLatLngFromAddress(address){
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+			sessionStorage.setItem("latitude", latitude);
+			sessionStorage.setItem("longitude", longitude);
+			processRequest(0);
+		} 
+    }); 
+}

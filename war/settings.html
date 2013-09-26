@@ -108,6 +108,7 @@
       if (localStorage) {
             if (localStorage.detect_location) {
                 $("#detect_location").val(localStorage.detect_location);
+                $("#detect_location").slider("refresh");
                 if ($("#detect_location").val() == 'false') {
                     $('.custom_location').slideDown();
                     $('#zip').attr("required", true);
@@ -118,6 +119,7 @@
             }
             if (localStorage.radius) {
                 $("#radius").val(localStorage.radius);
+                $("#radius").slider('refresh');
             }
             /*if (localStorage.dates) {
                 $('input:radio[name="dates"]').filter("[value=" + localStorage.dates + "]").prop("checked", true);
