@@ -31,7 +31,7 @@ var startList=1;
         audio.playPause();
       }
     })    
-	    
+        
     // Load in a track on click
     $('ol li').click(function(e) {
       e.preventDefault();
@@ -42,25 +42,25 @@ var startList=1;
       var count = 0;
       var showElement = $('li.playing').prev()
       while (showElement.length && count < 2) {
-    	count = count + 1;
+        count = count + 1;
         if (showElement.is(':hidden') ) {
-			showElement.show();
-			startList = startList - 1;
-			$('#tracks').attr('start', startList);
+            showElement.show();
+            startList = startList - 1;
+            $('#tracks').attr('start', startList);
         }
         showElement = showElement.prev()
-   	  }	
+         }    
 
       count = 0;
       var hideElement = $('li.playing').prev()
       while (hideElement.length && hideElement.is(':visible')){
-    	count = count+1;
+        count = count+1;
         if (count > 2){
-        	hideElement.hide();
-        	startList = startList + 1;
-        	$('#tracks').attr('start', startList);
-    	}
-      	hideElement = hideElement.prev()
+            hideElement.hide();
+            startList = startList + 1;
+            $('#tracks').attr('start', startList);
+        }
+          hideElement = hideElement.prev()
       }
       $("#title").text($('li.playing').text());
 

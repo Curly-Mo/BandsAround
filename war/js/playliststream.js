@@ -1,11 +1,11 @@
 if (typeof(EventSource)!=="undefined") {
-	var source = new EventSource('/eventstream');
+    var source = new EventSource('/eventstream');
 } else {
-	alert("Your browser is not supported. =(");
+    alert("Your browser is not supported. =(");
 }
 
 source.addEventListener('message', function(e) {
-	var data = JSON.parse(e.data);
+    var data = JSON.parse(e.data);
     $("<li><a href='#' data-src='"+data.url+"'>"+data.title+"</a></li>").appendTo('#tracks');   
     
     // Load in a track on click
@@ -18,25 +18,25 @@ source.addEventListener('message', function(e) {
       var count = 0;
       var showElement = $('li.playing').prev()
       while (showElement.length && count < 2) {
-    	count = count + 1;
+        count = count + 1;
         if (showElement.is(':hidden') ) {
-			showElement.show();
-			startList = startList - 1;
-			$('#tracks').attr('start', startList);
+            showElement.show();
+            startList = startList - 1;
+            $('#tracks').attr('start', startList);
         }
         showElement = showElement.prev()
-   	  }	
+         }    
 
       count = 0;
       var hideElement = $('li.playing').prev()
       while (hideElement.length && hideElement.is(':visible')){
-    	count = count+1;
+        count = count+1;
         if (count > 2){
-        	hideElement.hide();
-        	startList = startList + 1;
-        	$('#tracks').attr('start', startList);
-    	}
-      	hideElement = hideElement.prev()
+            hideElement.hide();
+            startList = startList + 1;
+            $('#tracks').attr('start', startList);
+        }
+          hideElement = hideElement.prev()
       }
       $("#title").text($('li.playing').text());
 
@@ -45,11 +45,11 @@ source.addEventListener('message', function(e) {
 }, false);
 
 source.addEventListener('open', function(e) {
-	// Connection was opened.
+    // Connection was opened.
 }, false);
 
 source.addEventListener('error', function(e) {
-	if (e.readyState == EventSource.CLOSED) {
-		// Connection was closed.
-	}
+    if (e.readyState == EventSource.CLOSED) {
+        // Connection was closed.
+    }
 }, false);

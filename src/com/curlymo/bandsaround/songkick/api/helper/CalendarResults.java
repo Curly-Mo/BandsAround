@@ -15,20 +15,20 @@ import java.util.List;
 import com.curlymo.bandsaround.songkick.api.objects.CalendarEntry;
 
 public class CalendarResults implements Results {
-	private List<CalendarEntry> calendarEntry;
+    private List<CalendarEntry> calendarEntry;
 
 
-	public List<CalendarEntry> getList() {
-		return calendarEntry;
-	}
+    public List<CalendarEntry> getList() {
+        return calendarEntry;
+    }
 
 
-	public List<CalendarEntry> getCalendarEntry() {
-		return calendarEntry;
-	}
+    public List<CalendarEntry> getCalendarEntry() {
+        return calendarEntry;
+    }
 
 
-	public void setCalendarEntry(List<CalendarEntry> calendarEntry) {
-		this.calendarEntry = calendarEntry;
-	}
+    public void setCalendarEntry(List<CalendarEntry> calendarEntry) {
+        this.calendarEntry = calendarEntry;
+    }
 }

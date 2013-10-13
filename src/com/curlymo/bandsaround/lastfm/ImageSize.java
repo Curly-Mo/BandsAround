@@ -31,13 +31,13 @@ package com.curlymo.bandsaround.lastfm;
  */
 public enum ImageSize {
 
-	SMALL,
-	MEDIUM,
-	LARGE,
-	LARGESQUARE,
-	HUGE,
-	EXTRALARGE,
-	MEGA,
-	ORIGINAL
+    SMALL,
+    MEDIUM,
+    LARGE,
+    LARGESQUARE,
+    HUGE,
+    EXTRALARGE,
+    MEGA,
+    ORIGINAL
 
 }

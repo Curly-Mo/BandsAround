@@ -3,35 +3,35 @@ if(sessionStorage.getItem('detect_location')!='false' && navigator.geolocation) 
 }
 
 function foundLocation(position) {
-	var latitude = position.coords.latitude;
-	var longitude = position.coords.longitude;
-	sessionStorage.setItem('latitude', latitude);
-	sessionStorage.setItem('longitude', longitude);
-	if(!sessionStorage.getItem('tracksRequestedWithLocation')){
-		requestTracks(0);
-		clearPlaylist();
-	}
-	
-	//sessionStorage.setItem('zip', position.address.postalCode);
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    sessionStorage.setItem('latitude', latitude);
+    sessionStorage.setItem('longitude', longitude);
+    if(!sessionStorage.getItem('tracksRequestedWithLocation')){
+        requestTracks(0);
+        clearPlaylist();
+    }
+    
+    //sessionStorage.setItem('zip', position.address.postalCode);
 
-	/*$.ajax({
-	    url : "http://api.geonames.org/findNearbyPostalCodesJSON",
-	    dataType : 'json',
-	    data: {lat : latitude, lng : longitude, username : "CurlyMo"},
-	    error : function() {
-	       //alert("Error fetching zip from Lat/Long");
-	    },
-	    success : function(json) {
-	    	zip = json.postalCodes[0].postalCode;
-	    	sessionStorage.setItem('zip', zip);
-	    	if(!sessionStorage.getItem('tracksRequestedWithLocation')){
-	    		requestTracks(0);
-	    		clearPlaylist();
-	    	}
-	    }
-	});*/
+    /*$.ajax({
+        url : "http://api.geonames.org/findNearbyPostalCodesJSON",
+        dataType : 'json',
+        data: {lat : latitude, lng : longitude, username : "CurlyMo"},
+        error : function() {
+           //alert("Error fetching zip from Lat/Long");
+        },
+        success : function(json) {
+            zip = json.postalCodes[0].postalCode;
+            sessionStorage.setItem('zip', zip);
+            if(!sessionStorage.getItem('tracksRequestedWithLocation')){
+                requestTracks(0);
+                clearPlaylist();
+            }
+        }
+    });*/
 }
 
 function noLocation(){
-	//alert("no location found");
+    //alert("no location found");
 }

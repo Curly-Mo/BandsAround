@@ -14,5 +14,5 @@ package com.curlymo.bandsaround.songkick.api.helper;
 import java.util.List;
 
 public interface Results {
-	public List<? extends Object> getList();
+    public List<? extends Object> getList();
 }

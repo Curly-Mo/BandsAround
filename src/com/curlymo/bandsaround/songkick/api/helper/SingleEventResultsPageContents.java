@@ -13,14 +13,14 @@ package com.curlymo.bandsaround.songkick.api.helper;
 
 public class SingleEventResultsPageContents extends ResultsPageContents {
 
-	private SingleEventResults results;
-	
-	public void setResults(SingleEventResults results) {
-		this.results = results;
-	}
-	public Results getResults() {
-		return results;
-	}
-	
-	
+    private SingleEventResults results;
+    
+    public void setResults(SingleEventResults results) {
+        this.results = results;
+    }
+    public Results getResults() {
+        return results;
+    }
+    
+    
 }

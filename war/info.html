@@ -1,52 +1,169 @@
 <div id="info-scroller">
 <ul>
 <li>
-    
-    <h2><label for="info-title"></label>
-    <span id="info-title"></span></h2>
-    
-    <h2><span id="info-venue"></span></h2>
-    
-    <h3><span id="info-date"></span></h3>    
-    
-    <h3><a id="info-tickets" target="_blank"></a></h3>
-    
-    <!-- <h3><label for="info-phone"></label>
-    <a id="info-phone" target="_blank"></a></h3> -->
+    <div style="padding:5px 5px;">
+        <div id="info-title" style="font-size:2em;font-weight:bold; margin-bottom:-.1em"></div>
+        <div id="info-venue" style="font-size:1.5em;font-weight:bold;"></div>
+        <div id="info-date" style="font-size:1.3em;font-weight:bold;"></div>   
+        <a id="info-tickets" style="font-size:1.3em;font-weight:bold;" target="_blank"></a>
         
-    <div data-role="collapsible" data-collapsed="false" data-theme="c" data-content-theme="c" style="border:0;padding:0;margin:0;">    
-	    <h2><span id="info-artist"></span></h2>
-	    <div id="info-artist-bio-wrapper" data-role="collapsible" data-collapsed="false" data-inset="false" data-theme="c" data-content-theme="c">    
-	       <h3>Bio</h3>
-	       <span id="info-artist-bio"></span>
-	    </div>
-		<img id="info-artist-image" style="max-width:320px;"></img>
-	</div>
-	
-    <div data-role="collapsible" data-theme="c" data-content-theme="c">    
-	   <h2>Next Artist</h2>
+        <div style="display: table;">
+            <div style="display: table-row">
+	            <div style="display: table-cell;">Lineup:&nbsp;&nbsp;</div>
+	            <div id="info-lineup" style="display: table-cell;"></div>
+            </div>
+        </div>
+        
+        <!-- <h3><label for="info-phone"></label>
+        <a id="info-phone" target="_blank"></a></h3> -->
     </div>
     
-	<br><br><br><br>
-	
-
-
-	<div style="position:absolute;bottom:2px;right:8px;">
+    <div data-role="collapsible-set">    
+        <div data-role="collapsible" data-collapsed="false" data-theme="c" data-content-theme="c">    
+            <h2><span id="info-artist"></span></h2>
+            <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
+               <h3>Bio</h3>
+               <div style="padding:8px 8px;" id="info-artist-bio"></div>
+            </div>
+            <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
+               <h3>Genre</h3>
+               <div style="padding:8px 8px;" id="info-artist-terms"></div>
+            </div>
+            <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
+               <h3>Location</h3>
+               <div style="padding:8px 8px;" id="info-artist-location"></div>
+            </div>
+            <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
+               <h3>Images</h3>
+                <img id="info-artist-images" style="max-width:320px;"></img>
+            </div>
+            <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
+               <h3>Videos</h3>
+               <div style="padding:8px 8px;" id="info-artist-videos"></div>
+            </div>
+        </div>
+        
+        <!-- <div data-role="collapsible" data-theme="c" data-content-theme="c">    
+           <h2>Next Artist</h2>
+        </div>-->
+    </div>
+    
+    <br>
+    <div style="float:right;margin-right:8px;">
 	    <a href="http://soundcloud.com" target="_blank" title="SoundCloud">
 	    <img id="soundcloud-logo" src="http://developers.soundcloud.com/assets/powered_by_large_black-e832a12f64d6ce6d2da947494e210e4d.png" alt="SoundCloud" border="0" /></a>
 	    <a href="http://the.echonest.com" target="_blank" title="The Echo Nest">
 	    <img id="echonest-logo" src="http://the.echonest.com/static/img/logos/EN_P_on_Light_Transparent.png" border="0" /></a>
-		<a href="http://www.last.fm" target="_blank" title="Last.fm">
-		<img id="lastfm-logo" src="http://cdn.last.fm/flatness/badges/lastfm_grey.gif" alt="Last.fm" border="0" /></a>
-		<!--<a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search">
-        <img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>-->
+	    <a href="http://www.last.fm" target="_blank" title="Last.fm">
+	    <img id="lastfm-logo" src="http://cdn.last.fm/flatness/badges/lastfm_grey.gif" alt="Last.fm" border="0" /></a>
+	    <!--<a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search">
+	    <img id="jambase-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="JamBase" border="0" /></a>-->
 	</div>
+	<br><br><br>
 </li>
 </ul>
+
+
+
 </div>
 
-<script type="text/javascript">
-function getBestBio(bios) {
+<script>
+function loadInfo(){
+    var playing = $('li.playing');
+    var artist = playing.attr("name");
+    var eventTitle = playing.attr("data-eventTitle");
+    var venue = playing.attr("data-venue");
+    var venueLat = playing.attr("data-venueLat");
+    var venueLng = playing.attr("data-venueLng");
+    var venuePhone = playing.attr("data-venuePhone");
+    var date = new Date(playing.attr("data-date"));
+    var ticketUrl = playing.attr("data-ticketUrl");
+    var lineup = playing.attr("data-lineup");
+    var headliner = playing.attr("data-headliner");
+    
+    if(artist != "" || artist != "undefined"){
+        requestArtistInfo(artist);
+    }
+    $("#info-title").html(eventTitle);
+    $("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&near="+venueLat+","+venueLng+"'>"+venue+"</a>");
+    $("#info-date").html(getHumanDate(date) );
+    if(ticketUrl == "" || ticketUrl == "undefined"){
+        $("#info-tickets").text("");
+        $("#info-tickets").attr("href","");
+    }else{
+        $("#info-tickets").text("Buy Tickets Here");
+        $("#info-tickets").attr("href",ticketUrl);
+    }
+    
+    if(typeof lineup !== "undefined"){
+    	$("#info-lineup").html("");
+        lineup = lineup.split("||");
+        for(var k in lineup){
+            if(lineup[k] == artist){
+                $("#info-lineup").append("<strong>&#x266B;<i>"+ lineup[k] +"</i>&#x266B</strong></br>");
+            }else{
+                  $("#info-lineup").append(lineup[k] + "</br>");
+            }
+        }
+    }
+    
+}
+
+
+
+function requestArtistInfo(artistID){
+    var apiKey = "8C0DI9VHHE8BZSPOP";
+    //var id = "jambase:artist:"+artistID;
+    var name = encodeURIComponent(artistID);
+    $.ajax({
+        url : "http://developer.echonest.com/api/v4/artist/profile",
+        dataType : 'json',
+        data: 
+            'api_key='+ apiKey +
+            '&name='+ name +
+            '&bucket='+ "biographies" +
+            '&bucket='+ "familiarity" +
+            '&bucket='+ "hotttnesss" +
+            '&bucket='+ "images" +
+            '&bucket='+ "artist_location" +
+            '&bucket='+ "news" +
+            '&bucket='+ "reviews" +
+            '&bucket='+ "urls" +
+            '&bucket='+ "video" +
+            '&bucket='+ "years_active" +
+            '&bucket='+ "terms" +
+            '&format='+ "json",
+        error : function() {
+            
+        },
+        success : function(data) {
+            var artistProfile = data.response.artist;
+            if(typeof artistProfile === "undefined"){
+                return;
+            }
+            $("#info-artist").html(artistProfile.name);
+            if(typeof artistProfile.images[0] !== "undefined"){
+                $("#info-artist-images").load(function(){infoScroll.refresh();}).attr("src",artistProfile.images[0].url);  
+            }
+            if(typeof artistProfile.biographies[0] !== "undefined"){
+                $("#info-artist-bio").html(getBio(artistProfile.biographies));
+            }
+            if(typeof artistProfile.terms[0] !== "undefined"){
+                $("#info-artist-terms").html(getTerms(artistProfile.terms));
+            }
+            if(typeof artistProfile.artist_location !== "undefined" &&typeof artistProfile.artist_location.location !== "undefined"){
+                $("#info-artist-location").html(artistProfile.artist_location.location);
+            }
+            if(typeof artistProfile.video[0] !== "undefined"){
+                $("#info-artist-videos").html(getVideos(artistProfile.video));  
+            }
+            infoScroll.refresh();
+        }
+    });
+}
+
+
+function getBio(bios) {
     var best = null;
     if (bios.length > 0) {
         best = bios[0];
@@ -54,9 +171,27 @@ function getBestBio(bios) {
             if (bios[i].site == 'wikipedia') {
                 best = bios[i];
             }
+            if (bios[i].site == 'last.fm' && best.site != 'wikipedia') {
+                best = bios[i];
+            }
         }
     }
-    return best;
+    if(best.text.length > 600){
+        return best.text.substring(0,600) + "... <a target='_blank' href='" + best.url + "'>" + best.url + "</a>";
+    }
+    return best.text;
+}
+function getTerms(terms) {
+    var termList = "";
+    for (var i = 0; i < terms.length; i++) {
+        termList += terms[i].name + ", ";
+    }
+    return termList.substring(0,termList.length-2);
+}
+function getVideos(videos) {
+    var video = "<iframe style='max-width:100%;' id='ytplayer' onload='ytloaded()' type='text/html' width='640' height='390' src='http://www.youtube.com/embed/"
+        + youtubeParser(videos[0].url) + "' frameborder='0'/>"
+    return video;
 }
 
 
@@ -76,81 +211,33 @@ function getHumanDate(date){
     return returnString;
 }
 
-function loadInfo(){
-    var playing = $('li.playing');
-    var artistID = playing.attr("name");
-    var eventTitle = playing.attr("data-eventTitle");
-    var venue = playing.attr("data-venue");
-    var venueLat = playing.attr("data-venueLat");
-    var venueLng = playing.attr("data-venueLng");
-    var venuePhone = playing.attr("data-venuePhone");
-    var date = new Date(playing.attr("data-date"));
-    var ticketUrl = playing.attr("data-ticketUrl");
-
-	requestArtistInfo(artistID);
-    $("#info-title").html(eventTitle);
-	$("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&near="+venueLat+","+venueLng+"'>"+venue+"</a>");
-	$("#info-date").html(getHumanDate(date) );
-	if(ticketUrl == "" || ticketUrl == "undefined"){
-        $("#info-tickets").text("");
-        $("#info-tickets").attr("href","");
+function youtubeParser(url){
+	var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+	var match = url.match(regExp);
+	if (match&&match[2].length==11){
+	    return match[2];
 	}else{
-		$("#info-tickets").text("Buy Tickets Here");
-		$("#info-tickets").attr("href",ticketUrl);
+	    //error
 	}
-	if(venuePhone == "" || venuePhone == "undefined"){
-		$("#info-phone").text("");
-	    $("#info-phone").attr("href","");
-	}else{
-	    $("#info-phone").text(venuePhone);
-	    $("#info-phone").attr("href","tel:"+venuePhone);
-	}
-	
 }
 
-
-
-function requestArtistInfo(artistID){
-	var apiKey = "8C0DI9VHHE8BZSPOP";
-	//var id = "jambase:artist:"+artistID;
-	var name = encodeURIComponent(artistID);
-    $.ajax({
-        url : "http://developer.echonest.com/api/v4/artist/profile",
-        dataType : 'json',
-        data: 
-        	'api_key='+ apiKey +
-        	'&name='+ name +
-        	'&bucket='+ "biographies" +
-        	'&bucket='+ "familiarity" +
-        	'&bucket='+ "hotttnesss" +
-        	'&bucket='+ "images" +
-        	'&bucket='+ "artist_location" +
-        	'&bucket='+ "news" +
-        	'&bucket='+ "reviews" +
-        	'&bucket='+ "urls" +
-        	'&bucket='+ "video" +
-        	'&bucket='+ "years_active" +
-        	'&bucket='+ "terms" +
-        	'&format='+ "json",
-        error : function() {
-        	
-        },
-        success : function(data) {
-        	var artistProfile = data.response.artist;
-        	if(typeof artistProfile === "undefined"){
-        		return;
-        	}
-            $("#info-artist").html(artistProfile.name);
-            if(typeof artistProfile.images[0] !== "undefined"){
-                $("#info-artist-image").load(function() { infoScroll.refresh();}).attr("src",artistProfile.images[0].url);  
-            }
-            if(typeof artistProfile.biographies[0] !== "undefined"){
-            	$("#info-artist-bio").html(getBestBio(artistProfile.biographies).text);
-            }
-        }
-    });
+var ytplayer;
+function ytloaded(){
+	ytplayer = new YT.Player('ytplayer', {
+		videoId: '-cSFPIwMEq4',
+		events:{      
+			'onStateChange': function (event){
+				if (event.data == YT.PlayerState.PLAYING){
+					audio.pause();
+				}
+				else if (event.data == YT.PlayerState.PAUSED)
+				    { document.body.focus();}
+				else
+				    {/*alert ("Buffering/Video Ended");*/}                             
+		    }
+		}
+		      
+	});
 }
-
-
 
 </script>

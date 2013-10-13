@@ -15,17 +15,17 @@ import java.util.List;
 import com.curlymo.bandsaround.songkick.api.objects.Artist;
 
 public class ArtistResults implements Results {
-	private List<Artist> artist;
+    private List<Artist> artist;
 
-	public List<Artist> getArtist() {
-		return artist;
-	}
+    public List<Artist> getArtist() {
+        return artist;
+    }
 
-	public void setArtist(List<Artist> artist) {
-		this.artist = artist ;
-	}
-	
-	public List<Artist> getList() {
-		return artist;
-	}
+    public void setArtist(List<Artist> artist) {
+        this.artist = artist ;
+    }
+    
+    public List<Artist> getList() {
+        return artist;
+    }
 }

@@ -36,40 +36,40 @@ import com.curlymo.bandsaround.lastfm.xml.DomElement;
 
 public class Shout {
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
-	static final ItemFactory<Shout> FACTORY = new ShoutFactory();
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
+    static final ItemFactory<Shout> FACTORY = new ShoutFactory();
 
-	private String body;
-	private String author;
-	private Date date;
+    private String body;
+    private String author;
+    private Date date;
 
-	public Shout(String body, String author, Date date) {
-		this.body = body;
-		this.author = author;
-		this.date = date;
-	}
+    public Shout(String body, String author, Date date) {
+        this.body = body;
+        this.author = author;
+        this.date = date;
+    }
 
-	public String getBody() {
-		return body;
-	}
+    public String getBody() {
+        return body;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	private static class ShoutFactory implements ItemFactory<Shout> {
-		public Shout createItemFromElement(DomElement element) {
-			Date date = null;
-			try {
-				date = DATE_FORMAT.parse(element.getChildText("date"));
-			} catch (ParseException e) {
-				date = null;
-			}
-			return new Shout(element.getChildText("body"), element.getChildText("author"), date);
-		}
-	}
+    private static class ShoutFactory implements ItemFactory<Shout> {
+        public Shout createItemFromElement(DomElement element) {
+            Date date = null;
+            try {
+                date = DATE_FORMAT.parse(element.getChildText("date"));
+            } catch (ParseException e) {
+                date = null;
+            }
+            return new Shout(element.getChildText("body"), element.getChildText("author"), date);
+        }
+    }
 }

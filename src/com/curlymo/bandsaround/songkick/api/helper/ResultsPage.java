@@ -12,5 +12,5 @@
 package com.curlymo.bandsaround.songkick.api.helper;
 
 public interface ResultsPage {
-	public ResultsPageContents getResultsPageContents();
+    public ResultsPageContents getResultsPageContents();
 }

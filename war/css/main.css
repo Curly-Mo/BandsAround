@@ -214,3 +214,20 @@ textarea[contenteditable] {
        only screen and (min-resolution: 144dpi) {
     /* Style adjustments for viewports that meet the condition */
 }
+
+body { color: #666; font-family: sans-serif; line-height: 1.4; }
+h1 { color: #444; font-size: 1.2em; padding: 6px 2px 8px; margin: 0px; }
+h1 em { font-style: normal; color: #999; }
+a { color: #888; text-decoration: none; }
+
+ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; width: 100%; }
+ol li {text-indent:-.4em; }
+li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
+ul { 
+    padding: 0px; margin: 0px; 
+    list-style-type: none;
+}
+
+.ui-collapsible-content{
+    padding : 0px 0px !important;
+}

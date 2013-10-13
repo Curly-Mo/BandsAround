@@ -12,19 +12,19 @@
 package com.curlymo.bandsaround.songkick.api.helper;
 
 public class SingleEventResultsPage implements ResultsPage {
-	private SingleEventResultsPageContents resultsPage;
+    private SingleEventResultsPageContents resultsPage;
 
-	public SingleEventResultsPageContents getResultsPage() {
-		return resultsPage;
-	}
+    public SingleEventResultsPageContents getResultsPage() {
+        return resultsPage;
+    }
 
-	public void setResultsPage(SingleEventResultsPageContents resultsPage) {
-		this.resultsPage = resultsPage;
-	}
+    public void setResultsPage(SingleEventResultsPageContents resultsPage) {
+        this.resultsPage = resultsPage;
+    }
 
-	public ResultsPageContents getResultsPageContents() {
-		return resultsPage;
-	}
-	
-	
+    public ResultsPageContents getResultsPageContents() {
+        return resultsPage;
+    }
+    
+    
 }

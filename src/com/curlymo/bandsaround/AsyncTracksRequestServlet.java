@@ -38,17 +38,20 @@ public class AsyncTracksRequestServlet extends HttpServlet {
         //String retry = req.getParameter("retry");
         //int dayStart = Integer.parseInt(req.getParameter("dayStart"));
         //int dayEnd = Integer.parseInt(req.getParameter("dayEnd"));
+        String page = req.getParameter("page");
+        String maxEvents = req.getParameter("maxEvents");
         String radius = req.getParameter("radius");
-        if(radius==null){radius="30";}
-        int tracksPerArtist = 10;
-        if(req.getParameter("tracksPerArtist")!=null){
-            tracksPerArtist = Integer.parseInt(req.getParameter("tracksPerArtist"));
-        }
-
-        double latitude = 0;
-        double longitude = 0;
+        String tracksPerArtist = req.getParameter("tracksPerArtist");
         String lat = req.getParameter("latitude");
         String lng = req.getParameter("longitude");
+        
+
+        if(radius==null||radius==""){radius="30";}
+        if(tracksPerArtist==null||tracksPerArtist==""){tracksPerArtist = "5";}
+        if(page==null||page==""){page = "1";}
+        if(maxEvents==null||maxEvents==""){maxEvents = "50";}
+        double latitude = 0;
+        double longitude = 0;
         if(lat == "" || lng == ""){
             String latLng = req.getHeader("X-AppEngine-CityLatLong");
             lat = latLng.split(",")[0];
@@ -56,6 +59,7 @@ public class AsyncTracksRequestServlet extends HttpServlet {
         }
         latitude = Double.parseDouble(lat);
         longitude = Double.parseDouble(lng);
+        
 
         URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
         ArrayList<Future<HTTPResponse>> asyncResponses = new ArrayList<Future<HTTPResponse>>();
@@ -67,11 +71,11 @@ public class AsyncTracksRequestServlet extends HttpServlet {
             theEvents = Jambase.getEventsAlternate(zip, radius, dayStart, dayEnd);
         }*/
         //out.println("Initial: " + (System.currentTimeMillis() - start));
-        PaginatedResult<Event> events = Geo.getEvents(latitude, longitude, radius, 1, 100, lastFMApiKey);
+        PaginatedResult<Event> events = Geo.getEvents(latitude, longitude, radius, Integer.parseInt(page), Integer.parseInt(maxEvents), lastFMApiKey);
         //out.println("gotEvents: " + (System.currentTimeMillis() - start));
         for(Event event : events.getPageResults()){
             for(String artist : event.getArtists()){
-                URL url = SoundCloud.getTracksURLByTrackSearch(artist, tracksPerArtist);
+                URL url = SoundCloud.getTracksURLByTrackSearch(artist, Integer.parseInt(tracksPerArtist));
                 Future<HTTPResponse> responseFuture = fetcher.fetchAsync(url);
                 asyncResponses.add(responseFuture);
                 trackArtists.add(artist);
@@ -109,6 +113,8 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                         json.put("date", trackEvents.get(index).getStartDate());
                         json.put("ticketUrl", trackEvents.get(index).getWebsite());
                         json.put("streamURL", track.getStream_url()+"?client_id="+soundCloudApiKey);
+                        json.put("lineup", new JSONArray(trackEvents.get(index).getArtists()));
+                        json.put("headliner", trackEvents.get(index).getHeadliner());
                         jsonArray.put(json);
                         //json.put("venue", trackEvents.get(index).getVenue().getName());
                         //json.put("address", trackEvents.get(index).getVenue().getVenue_address());

@@ -17,25 +17,25 @@ import java.util.List;
 import com.curlymo.bandsaround.songkick.api.objects.Event;
 
 public class SingleEventResults implements Results {
-	private Event event;
+    private Event event;
 
-	public Event getEvent() {
-		return event;
-	}
+    public Event getEvent() {
+        return event;
+    }
 
-	public void setEvent(Event event) {
-		this.event = event;
-	}
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 
-	/**
-	 * Messy. Create a list, because everything else we parse comes out in lists, then put one item in it,
-	 * and later on in Songkick.java extract this one item. Eww.
-	 */
-	public List<? extends Object> getList() {
-		List<Event> list = new ArrayList<Event>();
-		list.add(event);
-		return list;
-	}
+    /**
+     * Messy. Create a list, because everything else we parse comes out in lists, then put one item in it,
+     * and later on in Songkick.java extract this one item. Eww.
+     */
+    public List<? extends Object> getList() {
+        List<Event> list = new ArrayList<Event>();
+        list.add(event);
+        return list;
+    }
 
 
 }

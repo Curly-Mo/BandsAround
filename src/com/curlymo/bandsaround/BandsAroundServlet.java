@@ -21,36 +21,36 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 @SuppressWarnings("serial")
 public class BandsAroundServlet extends HttpServlet {
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/plain");
-		List<Track> tracks = new LinkedList<Track>();
-		String latLng = req.getHeader("X-AppEngine-CityLatLong");
-		String zip = "00000";
-		String radius = "30";
-		try {
-			zip = Geocoder.getZipFromLatLng(latLng);
-		} catch (JSONException e1) {
-		}
-		
-		Events events = Jambase.getEvents(zip, radius);
-		if (events!=null && events.getEvents()!=null && !events.getEvents().isEmpty()){
-			for(Event event : events.getEvents()){
-				for(Artist artist : event.getArtists()){
-					Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name(), 5);
-					tracks.addAll(artistTracks);
-				}
-				
-			}
-		}
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        List<Track> tracks = new LinkedList<Track>();
+        String latLng = req.getHeader("X-AppEngine-CityLatLong");
+        String zip = "00000";
+        String radius = "30";
+        try {
+            zip = Geocoder.getZipFromLatLng(latLng);
+        } catch (JSONException e1) {
+        }
+        
+        Events events = Jambase.getEvents(zip, radius);
+        if (events!=null && events.getEvents()!=null && !events.getEvents().isEmpty()){
+            for(Event event : events.getEvents()){
+                for(Artist artist : event.getArtists()){
+                    Collection<Track> artistTracks = SoundCloud.getTracksByTrackSearch(artist.getArtist_name(), 5);
+                    tracks.addAll(artistTracks);
+                }
+                
+            }
+        }
 
-		Collections.shuffle(tracks);
-		
-		req.setAttribute("tracks", tracks);
-		try {
-			req.getRequestDispatcher("index.jsp").forward(req, resp);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        Collections.shuffle(tracks);
+        
+        req.setAttribute("tracks", tracks);
+        try {
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

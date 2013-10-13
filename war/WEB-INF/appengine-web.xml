@@ -29,9 +29,9 @@
     stale session data. For details, see
     http://code.google.com/appengine/docs/java/config/appconfig.html#Enabling_Sessions
   -->
-	<static-error-handlers>
-		<!-- <handler file="404.html"/>-->
-		<handler file="over_quota.html" error-code="over_quota"/>
-	</static-error-handlers>
+    <static-error-handlers>
+        <!-- <handler file="404.html"/>-->
+        <handler file="over_quota.html" error-code="over_quota"/>
+    </static-error-handlers>
 
 </appengine-web-app>

@@ -6,35 +6,35 @@ import javax.xml.bind.annotation.XmlElement;
 
 @SuppressWarnings("serial")
 public class Venue implements Serializable{
-	long Id;
-	String Name;
-	String Address;
-	String City;
-	String State;
-	String StateCode;
-	String Country;
-	String CountryCode;
-	String ZipCode;
-	String Url;
-	long Latitude;
-	long Longitude;
-	
-	@XmlElement
+    long Id;
+    String Name;
+    String Address;
+    String City;
+    String State;
+    String StateCode;
+    String Country;
+    String CountryCode;
+    String ZipCode;
+    String Url;
+    long Latitude;
+    long Longitude;
+    
+    @XmlElement
     public long getVenue_id() {
         return Id;
     }
     
     public void setVenue_id(long Id) {
-    	this.Id = Id;
+        this.Id = Id;
     }   
-	
-	@XmlElement
+    
+    @XmlElement
     public String getVenue_name() {
         return Name;
     }
     
     public void setVenue_name(String Name) {
-    	this.Name = Name;
+        this.Name = Name;
     }   
 
     @XmlElement
@@ -46,22 +46,22 @@ public class Venue implements Serializable{
         this.Address = Address;
     }  
     
-	@XmlElement
+    @XmlElement
     public String getVenue_city() {
         return City;
     }
     
     public void setVenue_city(String City) {
-    	this.City = City;
+        this.City = City;
     }   
-	
-	@XmlElement
+    
+    @XmlElement
     public String getVenue_state() {
         return State;
     }
     
     public void setVenue_state(String State) {
-    	this.State = State;
+        this.State = State;
     }  
     
     @XmlElement
@@ -90,14 +90,14 @@ public class Venue implements Serializable{
     public void setVenue_countryCode(String CountryCode) {
         this.CountryCode = CountryCode;
     }   
-	
-	@XmlElement
+    
+    @XmlElement
     public String getVenue_zip() {
         return ZipCode;
     }
     
     public void setVenue_zip(String ZipCode) {
-    	this.ZipCode = ZipCode;
+        this.ZipCode = ZipCode;
     }   
     
     @XmlElement

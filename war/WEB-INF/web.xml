@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<servlet>
-		<servlet-name>BandsAround</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.BandsAroundServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>BandsAround</servlet-name>
-		<url-pattern>/bandsaround</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>Jambase</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.jambase.JambaseServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Jambase</servlet-name>
-		<url-pattern>/jambase</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>SoundCloud</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.soundcloud.SoundCloudServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SoundCloud</servlet-name>
-		<url-pattern>/soundcloud</url-pattern>
-	</servlet-mapping>
-	<servlet>
-	<servlet-name>EventStream</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.EventStreamServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EventStream</servlet-name>
-		<url-pattern>/eventstream</url-pattern>
-	</servlet-mapping>
-	<servlet>
-	<servlet-name>Test</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.TestServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Test</servlet-name>
-		<url-pattern>/test</url-pattern>
-	</servlet-mapping>
-	   <servlet>
+    <servlet>
+        <servlet-name>BandsAround</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.BandsAroundServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BandsAround</servlet-name>
+        <url-pattern>/bandsaround</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Jambase</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.jambase.JambaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Jambase</servlet-name>
+        <url-pattern>/jambase</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SoundCloud</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.soundcloud.SoundCloudServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SoundCloud</servlet-name>
+        <url-pattern>/soundcloud</url-pattern>
+    </servlet-mapping>
+    <servlet>
+    <servlet-name>EventStream</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.EventStreamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventStream</servlet-name>
+        <url-pattern>/eventstream</url-pattern>
+    </servlet-mapping>
+    <servlet>
+    <servlet-name>Test</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+       <servlet>
         <servlet-name>Test2</servlet-name>
         <servlet-class>com.curlymo.bandsaround.Test2Servlet</servlet-class>
     </servlet>
@@ -47,22 +47,22 @@
         <servlet-name>Test2</servlet-name>
         <url-pattern>/test2</url-pattern>
     </servlet-mapping>
-	<servlet>
-		<servlet-name>BandWagon</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.BandWagonServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>BandWagon</servlet-name>
-		<url-pattern>/bandwagon</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>AsyncTracksRequest</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.AsyncTracksRequestServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AsyncTracksRequest</servlet-name>
-		<url-pattern>/asynctracksrequest</url-pattern>
-	</servlet-mapping>
+    <servlet>
+        <servlet-name>BandWagon</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.BandWagonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BandWagon</servlet-name>
+        <url-pattern>/bandwagon</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AsyncTracksRequest</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.AsyncTracksRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AsyncTracksRequest</servlet-name>
+        <url-pattern>/asynctracksrequest</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>EchoNest</servlet-name>
         <servlet-class>com.curlymo.bandsaround.echonest.EchoNestServlet</servlet-class>
@@ -72,18 +72,18 @@
         <url-pattern>/echonest</url-pattern>
     </servlet-mapping>
    
-	<servlet>
-		<servlet-name>InitChannel</servlet-name>
-		<servlet-class>com.curlymo.bandsaround.InitChannelServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>InitChannel</servlet-name>
-		<url-pattern>/initchannel</url-pattern>
-	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-	
+    <servlet>
+        <servlet-name>InitChannel</servlet-name>
+        <servlet-class>com.curlymo.bandsaround.InitChannelServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitChannel</servlet-name>
+        <url-pattern>/initchannel</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    
  <servlet>
   <servlet-name>SystemServiceServlet</servlet-name>
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>

@@ -3,7 +3,7 @@ package com.curlymo.bandsaround.geocoder;
 
 public class LatLng {
     double lat;
-	private double lng;
+    private double lng;
 
     public LatLng() {
     }

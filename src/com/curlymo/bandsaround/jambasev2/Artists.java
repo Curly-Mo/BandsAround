@@ -8,15 +8,15 @@ import javax.xml.bind.annotation.XmlElement;
 @SuppressWarnings("serial")
 public class Artists implements Serializable{
 
-	List<Artist> artists;
-	
-	@XmlElement(name="artist")
+    List<Artist> artists;
+    
+    @XmlElement(name="artist")
     public List<Artist> getArtists() {
         return artists;
     }
     
     public void setArtists(List<Artist> artists) {
-    	this.artists = artists;
+        this.artists = artists;
     } 
 
 }

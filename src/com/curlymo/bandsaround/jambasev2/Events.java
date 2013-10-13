@@ -10,15 +10,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="JamBase_Data")
 public class Events implements Serializable{
 
-	List<Event> events;
-	
-	@XmlElement(name="event")
+    List<Event> events;
+    
+    @XmlElement(name="event")
     public List<Event> getEvents() {
         return events;
     }
     
     public void setEvents(List<Event> events) {
-    	this.events = events;
+        this.events = events;
     }
 
 }

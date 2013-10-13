@@ -3,108 +3,109 @@
 <li>
 <form id="settings-form" style="margin-left: auto;margin-right: auto;">
 
-	<h2>Settings</h2>
+    <h2>Settings</h2>
 
     <!-- Detect Location Switch -->
-	<div data-noswipe-wrapper data-role="fieldcontain">
-		<label for="detect_location">Auto Detect Location:</label>
-		<select name="detect_location" id="detect_location" data-role="slider">
-			<option value="false">Off</option>
-			<option value="true" selected>On</option>
-		</select>
-	</div>
+    <div data-noswipe-wrapper data-role="fieldcontain">
+        <label for="detect_location">Auto Detect Location:</label>
+        <select name="detect_location" id="detect_location" data-role="slider">
+            <option value="false">Off</option>
+            <option value="true" selected>On</option>
+        </select>
+    </div>
            <!-- Custom Location (Hidden) -->
            <div class="custom_location" style="display:none">
                 <div data-role="fieldcontain">
-                 <label for="zip">Zip Code:</label>
+                 <label for="zip">Address or Postal Code:</label>
                  <input type="text" name="zip" id="zip" value="" />
                 </div>
             </div>
 
-	<div data-noswipe-wrapper data-role="fieldcontain">
-		<label for="radius">Venues within radius (miles):</label>
-	 	<input type="number" data-type="range"  name="radius" id="radius" value="15" min="1" max="50" data-highlight="true"  />
-	</div>
+    <div data-noswipe-wrapper data-role="fieldcontain">
+        <label for="radius">Venues within radius (miles):</label>
+         <input type="number" data-type="range"  name="radius" id="radius" value="15" min="1" max="50" data-highlight="true"  />
+    </div>
 
-	<!-- <div data-role="fieldcontain">
-	    <fieldset data-role="controlgroup" data-type="horizontal">
-	    	<legend>Date Range:</legend>
-	    		<input type="radio" name="dates" id="dates1" value="tonight" />
-	         	<label for="dates1">Tonight</label>
-	         	
-	         	<input type="radio" name="dates" id="dates2" value="weekend" />
-	         	<label for="dates2">This Weekend</label>
-	         	
-	         	<input type="radio" name="dates" id="dates3" value="week" checked="checked"/>
-	         	<label for="dates3">This Week</label>
+    <!-- <div data-role="fieldcontain">
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>Date Range:</legend>
+                <input type="radio" name="dates" id="dates1" value="tonight" />
+                 <label for="dates1">Tonight</label>
+                 
+                 <input type="radio" name="dates" id="dates2" value="weekend" />
+                 <label for="dates2">This Weekend</label>
+                 
+                 <input type="radio" name="dates" id="dates3" value="week" checked="checked"/>
+                 <label for="dates3">This Week</label>
 
-	         	<input type="radio" name="dates" id="dates4" value="month" />
-	         	<label for="dates4">This Month</label>
+                 <input type="radio" name="dates" id="dates4" value="month" />
+                 <label for="dates4">This Month</label>
 
-	         	<input type="radio" name="dates" id="dates5" value="3month" />
-	         	<label for="dates5">Next 3 Months</label>
-	    </fieldset>
-	</div> -->
-	
-	<div data-role="fieldcontain">
-	    <fieldset data-role="controlgroup" data-type="horizontal">
-	    	<legend>Theme:</legend>
-	         	<input type="radio" name="theme" id="theme1" value="light" checked="checked" />
-	         	<label for="theme1">Light</label>
+                 <input type="radio" name="dates" id="dates5" value="3month" />
+                 <label for="dates5">Next 3 Months</label>
+        </fieldset>
+    </div> -->
+    
+    <div data-role="fieldcontain">
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>Theme:</legend>
+                 <input type="radio" name="theme" id="theme1" value="light" checked="checked" />
+                 <label for="theme1">Light</label>
 
-	         	<input type="radio" name="theme" id="theme2" value="dark" />
-	         	<label for="theme2">Dark</label>
-	    </fieldset>
-	</div>
+                 <input type="radio" name="theme" id="theme2" value="dark" />
+                 <label for="theme2">Dark</label>
+        </fieldset>
+    </div>
 
-	<div>
-		<fieldset data-role="fieldcontain">
-				<div><button type="submit">Wag On!</button></div>
-	    </fieldset>
-	</div>
-	<br>
+    <div>
+        <fieldset data-role="fieldcontain">
+                <div><button type="submit">Wag On!</button></div>
+        </fieldset>
+    </div>
+    <br>
 </form>
 </li>
 </ul>
 </div>
 <script type="text/javascript">
-	$(document).ready(function() { 
-	    $('#detect_location').change(function() {
-	        if ($(this).val() == 'true') {
-	            $('.custom_location').slideUp("slow");
-	            $('#zip').attr("required", false);
-	        } else {
-	            $('.custom_location').slideDown("slow");
-	            $('#zip').attr("required", true);
-	        }
-	    });
-	    $('#zip').on('click', function () {
-	    	$(this).select(); 
-	    });
-	    $('input[name=theme]').change(function() {
-	        if ($(this).val() == 'dark') {
-	            changeTheme("a");
-	        } else {
-	            changeTheme("c");
-	        }
-	    });
-	    $("#settings-form").on('submit', function(e) {
-	    	e.preventDefault();
-       		localStorage.setItem("settings", JSON.stringify($(this).serializeArray()));
-       		localStorage.setItem("detect_location", $('#detect_location').val());
-       		localStorage.setItem("zip", $('#zip').val());
-       		localStorage.setItem("radius", $('#radius').val());
-       		//localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
-       		localStorage.setItem("theme", $('input:radio[name=theme]:checked').val());
-       		gallery.next();
-       		$("#loading").show();
-       		requestTracks(0);
-       		clearPlaylist();
-       		
+    $(document).ready(function() { 
+        $('#detect_location').change(function() {
+            if ($(this).val() == 'true') {
+                $('.custom_location').slideUp("slow");
+                $('#zip').attr("required", false);
+            } else {
+                $('.custom_location').slideDown("slow");
+                $('#zip').attr("required", true);
+                $('#zip').select();
+            }
         });
-	});
-	
-	function loadSettingsValues(){
+        $('#zip').on('click', function () {
+            $(this).select(); 
+        });
+        $('input[name=theme]').change(function() {
+            if ($(this).val() == 'dark') {
+                changeTheme("a");
+            } else {
+                changeTheme("c");
+            }
+        });
+        $("#settings-form").on('submit', function(e) {
+            e.preventDefault();
+               localStorage.setItem("settings", JSON.stringify($(this).serializeArray()));
+               localStorage.setItem("detect_location", $('#detect_location').val());
+               localStorage.setItem("zip", $('#zip').val());
+               localStorage.setItem("radius", $('#radius').val());
+               //localStorage.setItem("dates", $('input:radio[name=dates]:checked').val());
+               localStorage.setItem("theme", $('input:radio[name=theme]:checked').val());
+               gallery.next();
+               $("#loading").show();
+               requestTracks(0);
+               clearPlaylist();
+               
+        });
+    });
+    
+    function loadSettingsValues(){
       if (localStorage) {
             if (localStorage.detect_location) {
                 $("#detect_location").val(localStorage.detect_location);
@@ -130,5 +131,5 @@
                 $("input[type='radio']").checkboxradio("refresh");
             }
         }
-	}
+    }
 </script>

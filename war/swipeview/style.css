@@ -1,8 +1,8 @@
 html, body { height:100%; overflow:hidden;}
 
 #wrapper {
-	width:100%;
-	min-width:320px;
-	height:100%;
-	float: left;
+    width:100%;
+    min-width:320px;
+    height:100%;
+    float: left;
 }

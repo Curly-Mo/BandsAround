@@ -5,7 +5,7 @@ $.ajax({
         alert("Error Occured =(");
     },
     success : function(data) {
-    	var channelKey = data.channelKey
+        var channelKey = data.channelKey
         var token = data.token;
         channel = new goog.appengine.Channel(token);
         socket = channel.open();
@@ -21,16 +21,16 @@ function onOpened() {
 }
 
 function onMessage(msg) {
-	var data = JSON.parse(msg.data);
+    var data = JSON.parse(msg.data);
     $("<li><a href='#' data-src='"+data.streamURL+"'>"+data.artist+" - "+data.title+"</a></li>").appendTo('#tracks');  
     if (initialized){
-    	updatePlaylist();
+        updatePlaylist();
     }else{
-    	initPlaylist();
+        initPlaylist();
     }
-	setTimeout(function () {
-		myScroll.refresh();
-	}, 0);
+    setTimeout(function () {
+        myScroll.refresh();
+    }, 0);
 }
 
 function onClose() {
@@ -42,13 +42,13 @@ function onError() {
 }
 
 sendMessage = function(path, opt_param) {
-	path += '?g=' + state.game_key;
-	if (opt_param) {
-		path += '&' + opt_param;
-	}
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', path, true);
-	xhr.send();
+    path += '?g=' + state.game_key;
+    if (opt_param) {
+        path += '&' + opt_param;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', path, true);
+    xhr.send();
 };
 
 var startList=1;
@@ -85,7 +85,7 @@ function initPlaylist(){
         audio.playPause();
       }
     })    
-	    
+        
     // Load in a track on click
     $('ol li').click(function(e) {
       e.preventDefault();
@@ -96,25 +96,25 @@ function initPlaylist(){
       var count = 0;
       var showElement = $('li.playing').prev()
       while (showElement.length && count < 2) {
-    	count = count + 1;
+        count = count + 1;
         if (showElement.is(':hidden') ) {
-			showElement.show();
-			startList = startList - 1;
-			$('#tracks').attr('start', startList);
+            showElement.show();
+            startList = startList - 1;
+            $('#tracks').attr('start', startList);
         }
         showElement = showElement.prev()
-   	  }	
+         }    
 
       count = 0;
       var hideElement = $('li.playing').prev()
       while (hideElement.length && hideElement.is(':visible')){
-    	count = count+1;
+        count = count+1;
         if (count > 2){
-        	hideElement.hide();
-        	startList = startList + 1;
-        	$('#tracks').attr('start', startList);
-    	}
-      	hideElement = hideElement.prev()
+            hideElement.hide();
+            startList = startList + 1;
+            $('#tracks').attr('start', startList);
+        }
+          hideElement = hideElement.prev()
       }
       $("#title").text($('li.playing').text());
 
@@ -133,25 +133,25 @@ function updatePlaylist(){
       var count = 0;
       var showElement = $('li.playing').prev()
       while (showElement.length && count < 2) {
-    	count = count + 1;
+        count = count + 1;
         if (showElement.is(':hidden') ) {
-			showElement.show();
-			startList = startList - 1;
-			$('#tracks').attr('start', startList);
+            showElement.show();
+            startList = startList - 1;
+            $('#tracks').attr('start', startList);
         }
         showElement = showElement.prev()
-   	  }	
+         }    
 
       count = 0;
       var hideElement = $('li.playing').prev()
       while (hideElement.length && hideElement.is(':visible')){
-    	count = count+1;
+        count = count+1;
         if (count > 2){
-        	hideElement.hide();
-        	startList = startList + 1;
-        	$('#tracks').attr('start', startList);
-    	}
-      	hideElement = hideElement.prev()
+            hideElement.hide();
+            startList = startList + 1;
+            $('#tracks').attr('start', startList);
+        }
+          hideElement = hideElement.prev()
       }
       $("#title").text($('li.playing').text());
 

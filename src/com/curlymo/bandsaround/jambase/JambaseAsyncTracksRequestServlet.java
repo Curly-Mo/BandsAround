@@ -95,7 +95,7 @@ public class JambaseAsyncTracksRequestServlet extends HttpServlet {
                 Gson gson = new Gson();
                 Type collectionType = new TypeToken<Collection<Track>>(){}.getType();
                 tracks = gson.fromJson(new String(response.getContent(), "UTF-8"), collectionType);
-        			
+                    
                 for(Track track : tracks){
                     if(track.getStreamable().equals("true")){
                         JSONObject json = new JSONObject();
@@ -126,7 +126,7 @@ public class JambaseAsyncTracksRequestServlet extends HttpServlet {
                 }
             index++;
             }
-    		
+            
         JSONObject json = new JSONObject();
         try {
             json.put("tracks",shuffleJsonArray(jsonArray));
@@ -134,7 +134,7 @@ public class JambaseAsyncTracksRequestServlet extends HttpServlet {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        out.println("parsedJSON: " + (System.currentTimeMillis() - start));	
+        out.println("parsedJSON: " + (System.currentTimeMillis() - start));    
         out.println("size: " + jsonArray.length());
         resp.setContentType("application/json");
         out = resp.getWriter();

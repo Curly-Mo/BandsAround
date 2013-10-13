@@ -14,17 +14,17 @@ package com.curlymo.bandsaround.songkick.api.objects;
 import java.io.Serializable;
 
 public class NamedItem implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -250856113103602826L;
-	private String displayName;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -250856113103602826L;
+    private String displayName;
 
-	public String getDisplayName() {
-		return displayName;
-	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 }

@@ -12,24 +12,24 @@
 package com.curlymo.bandsaround.songkick.api.helper;
 
 public abstract class ResultsPageContents {
-	private String status; 
-	private Error error;
-	
-	public abstract Results getResults();
+    private String status; 
+    private Error error;
+    
+    public abstract Results getResults();
 
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public Error getError() {
-		return error;
-	}
+    public Error getError() {
+        return error;
+    }
 
-	public void setError(Error error) {
-		this.error = error;
-	}
+    public void setError(Error error) {
+        this.error = error;
+    }
 
 }
