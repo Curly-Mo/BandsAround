@@ -6,12 +6,8 @@ var loadedTracks = [];
 
 
 function requestTracks(attempt){
-    preProcessRequest(attempt);
-    processRequest();
-}
-
-function preProcessRequest(attempt){
-    if(attempt > 1 || attempt < -1){
+	sessionStorage.setItem("attempt", attempt);
+    if(attempt >= 10 || attempt < -1){
         alert("Oh no! Something went wrong. =(\n");
         gallery.goToPage(2);
         $("#loading").hide();
@@ -24,19 +20,21 @@ function preProcessRequest(attempt){
         if(sessionStorage.getItem('latitude')){
             sessionStorage.setItem('tracksRequestedWithLocation', true);
         }
-        processRequest(attempt);
+        processRequest();
     }
 }
 
 
-function processRequest(attempt){
+function processRequest(){
     //var dayStart = 0;
     //var dayEnd=Math.max(2, 7 - attempt);
+	var attempt = parseInt(sessionStorage.getItem("attempt"));
     var tracksPerArtist = 5;
     var maxEvents = 100;
     var page = 1;
-    var radius = 30;
+    var radius = 32 + attempt*10;
     var retry;
+    var artist;
     var latitude = sessionStorage.getItem("latitude");
     var longitude = sessionStorage.getItem("longitude");
     
@@ -46,8 +44,12 @@ function processRequest(attempt){
     
     if (localStorage) {
         if (localStorage.radius) {
-            radius = (parseInt(localStorage.getItem("radius"))*1.6);
+            radius = (parseInt(localStorage.getItem("radius"))*1.6) + attempt*10;
         }
+        if(localStorage.detect_location==="false"){
+			latitude = sessionStorage.getItem("ziplatitude");
+    		longitude = sessionStorage.getItem("ziplongitude");
+		}
         /*if (localStorage.dates) {
             dates=getDateRange(localStorage.getItem("dates"));
             dayStart=dates[0];
@@ -61,20 +63,14 @@ function processRequest(attempt){
     $.ajax({
         url : "/asynctracksrequest",
         dataType : 'json',
-        data: {tracksPerArtist : tracksPerArtist, radius: radius, latitude: latitude, longitude: longitude, maxEvents: maxEvents, page: page, retry: retry/*, dayStart : dayStart, dayEnd : dayEnd*/},
+        data: {tracksPerArtist : tracksPerArtist, radius: radius, latitude: latitude, longitude: longitude, maxEvents: maxEvents, page: page, retry: retry, artist: artist/*, dayStart : dayStart, dayEnd : dayEnd*/},
         error : function() {
-            /*alert("Sorry =(\n" +
-                    "Server is busy today. I can't handle such large requests.\n" +
-                    "I'm working on fixing this. In the meantime you can reduce the Radius or Date Range on the settings page.");
-            gallery.goToPage(2);
-            $("#loading").hide();*/
-            $("#loading").innerHtml="Wow, there are a lot of upcoming concerts. Still thinking...";
-            requestTracks(attempt+1);
+            requestTracks(attempt-1);
         },
         success : function(data) {
             if(data.tracks==""){
-                $("#loading").innerHtml="Could not find any concerts. Expanding your search...";
-                requestTracks(attempt-2);
+                $("#loading").text="Could not find any concerts. Expanding your search...";
+                requestTracks(attempt+1);
                 return;
             }
             storeTracks(data);
@@ -224,6 +220,7 @@ function updatePlaylist(){
         var index = $("#tracks li").index(this);
         e.preventDefault();
         $(this).addClass('playing').siblings().removeClass('playing');
+        $(this).addClass('ui-focus').siblings().removeClass('ui-focus');
         //$(this).addClass('ui-btn-active').siblings().removeClass('ui-btn-active');
         //refreshListview();
         audio.load($('a', this).attr('data-src'));
@@ -297,9 +294,9 @@ function getLatLngFromAddress(address){
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
             var formattedAddress = results[0].formatted_address;
-            sessionStorage.setItem("latitude", latitude);
-            sessionStorage.setItem("longitude", longitude);
-            processRequest(0);
+            sessionStorage.setItem("ziplatitude", latitude);
+            sessionStorage.setItem("ziplongitude", longitude);
+            processRequest();
             localStorage.setItem("zip", formattedAddress);
             $("#zip").val(formattedAddress);
         } 

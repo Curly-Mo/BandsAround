@@ -73,6 +73,10 @@ public class AsyncTracksRequestServlet extends HttpServlet {
         //out.println("Initial: " + (System.currentTimeMillis() - start));
         PaginatedResult<Event> events = Geo.getEvents(latitude, longitude, radius, Integer.parseInt(page), Integer.parseInt(maxEvents), lastFMApiKey);
         //out.println("gotEvents: " + (System.currentTimeMillis() - start));
+        if(events.getPageResults().size() < 5){
+            tracksPerArtist = "" + Integer.parseInt(tracksPerArtist) *2;
+        }
+        
         for(Event event : events.getPageResults()){
             for(String artist : event.getArtists()){
                 URL url = SoundCloud.getTracksURLByTrackSearch(artist, Integer.parseInt(tracksPerArtist));

@@ -165,6 +165,7 @@ function requestArtistInfo(artistID){
 
 function getBio(bios) {
     var best = null;
+    var text;
     if (bios.length > 0) {
         best = bios[0];
         for (var i = 0; i < bios.length; i++) {
@@ -176,10 +177,11 @@ function getBio(bios) {
             }
         }
     }
-    if(best.text.length > 600){
-        return best.text.substring(0,600) + "... <a target='_blank' href='" + best.url + "'>" + best.url + "</a>";
+    text = best.text.replace(/Contents\n\n1[\s\S]*edit:/,"<br>");
+    if(text.length > 600){
+        return text.substring(0,600) + "... <a target='_blank' href='" + best.url + "'>" + best.url + "</a>";
     }
-    return best.text;
+    return text;
 }
 function getTerms(terms) {
     var termList = "";
