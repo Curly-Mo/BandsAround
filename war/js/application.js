@@ -7,22 +7,23 @@ gallery = new SwipeView('#wrapper', {
     numberOfPages: 3,
     snapThreshold: null,
     hastyPageFlip: false,
-    loop: true 
+    loop: false 
     });
 
 // Load initial data
 settings = document.createElement('span');
 settings.setAttribute("id", "settings");
-gallery.masterPages[0].appendChild(settings);
+gallery.masterPages[1].appendChild(settings);
 
 mainPage = document.createElement('span');
 mainPage.setAttribute("id", "mainPage");
-gallery.masterPages[1].appendChild(mainPage);
+gallery.masterPages[2].appendChild(mainPage);
+
 
 info = document.createElement('span');
 info.setAttribute("id", "info");
-gallery.masterPages[2].appendChild(info)
-
+gallery.masterPages[0].appendChild(info)
+gallery.goToPage(1);
 
 $('#settings').load('settings.html', function() {
     setTimeout(function () {
@@ -48,6 +49,10 @@ $('#mainPage').load('mainPage.html', function() {
             requestTracks(0);
         //}
     }, 0);
+    setTimeout(function(){
+        onResize();
+        $(window).resize(function() {onResize();});
+    }, 1000);
 });
 
 $('#info').load('info.html', function() {
@@ -106,4 +111,27 @@ function refreshTheme() {
     }else{
         changeTheme("c");
     }
+}
+
+var widescreen=false;
+function onResize(){
+	if( $(window).width() > 1000 && !widescreen){
+		widescreen = true;
+	  	$("#scroller-wrapper").width("40%");
+		$(".audiojs").width("40%");
+		$("#info-scroller").width("60%");
+		$("#info").appendTo(gallery.masterPages[2]);
+		$("#info-scroller").css("right",-$("#info-scroller").width());
+		$("#info-scroller").animate({"right":"0"});
+		gallery.updatePageCount(2);
+	    if(gallery.page==2){gallery.goToPage(1);}
+	}else if( $(window).width() < 1000 && widescreen){
+		widescreen = false;
+		$("#info-scroller").animate({"right":"0"});
+		$("#scroller-wrapper").width("100%");
+		$(".audiojs").width("100%");
+		$("#info-scroller").width("100%");
+		$("#info").appendTo(gallery.masterPages[0]);
+	    gallery.updatePageCount(3);
+	}
 }

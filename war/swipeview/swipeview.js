@@ -94,7 +94,7 @@ var SwipeView = (function (window, document) {
                 div.dataset.pageIndex = pageIndex;
                 div.dataset.upcomingPageIndex = pageIndex;
                 
-                if (!this.options.loop && i == -1) div.style.visibility = 'hidden';
+                //cqfif (!this.options.loop && i == -1) div.style.visibility = 'hidden';
 
                 this.slider.appendChild(div);
                 this.masterPages.push(div);
@@ -348,7 +348,8 @@ var SwipeView = (function (window, document) {
             this.directionLocked = true;
 
             if (!this.options.loop && (newX > 0 || newX < this.maxX)) {
-                newX = this.x + (deltaX / 2);
+                //cqfnewX = this.x + (deltaX / 2);
+            	return;//cqf
             }
 
             if (!this.thresholdExceeded && dist >= this.snapThreshold) {
@@ -437,9 +438,9 @@ var SwipeView = (function (window, document) {
             this.slider.style[transitionDuration] = Math.floor(500 * Math.abs(this.x - newX) / this.pageWidth) + 'ms';
 
             // Hide the next page if we decided to disable looping
-            if (!this.options.loop) {
-                this.masterPages[pageFlip].style.visibility = newX === 0 || newX == this.maxX ? 'hidden' : '';
-            }
+            //cqfif (!this.options.loop) {
+                //this.masterPages[pageFlip].style.visibility = newX === 0 || newX == this.maxX ? 'hidden' : '';
+            //cqf}
 
             if (this.x == newX) {
                 this.__flip();        // If we swiped all the way long to the next page (extremely rare but still)

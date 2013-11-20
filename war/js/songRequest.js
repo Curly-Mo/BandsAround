@@ -210,7 +210,11 @@ function updatePlaylist(){
           }
         })    
        	if(!isMobile()){
-       		audio.play();
+       		if(audio.settings.useFlash) {
+       			window.setTimeout('audio.play()', 1000);
+       			} else {
+       			audio.play();
+       		}
        	}
     }
         

@@ -4,5 +4,5 @@
 .audiojs .scrubber { width: 53%; width: calc(100% - 165px); height: 14px;} 
 .audiojs .progress { height: 14px; width: 100px; } 
 .audiojs .loaded { height: 14px; width: 100px; background: #000; } 
-.audiojs .time { height: 36px; line-height: 36px; margin: 0px 0px 0px 0px; padding: 0px 3px 0px 3px;} 
+.audiojs .time { height: 36px; line-height: 36px; margin: 0px 0px 0px 0px; padding: 0px 6px 0px 12px;} 
 .audiojs .error-message { height: 36px; width: 400px; line-height: 36px; } 

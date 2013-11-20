@@ -3,7 +3,7 @@
 <li>
     <div style="padding:5px 5px;">
         <div id="info-title" style="font-size:2em;font-weight:bold; margin-bottom:-.1em"></div>
-        <div id="info-venue" style="font-size:1.5em;font-weight:bold;"></div>
+        <div id="info-venue" style="font-size:1.5em;font-weight:bold;float:right; min-width:calc(100% - 20px);"></div>
         <div id="info-date" style="font-size:1.3em;font-weight:bold;"></div>   
         <a id="info-tickets" style="font-size:1.3em;font-weight:bold;" target="_blank"></a>
         
@@ -18,7 +18,7 @@
         <a id="info-phone" target="_blank"></a></h3> -->
     </div>
     
-    <div data-role="collapsible-set">    
+    <div data-role="collapsible-set" id="info-artists">    
         <div data-role="collapsible" data-collapsed="false" data-theme="c" data-content-theme="c">    
             <h2><span id="info-artist"></span></h2>
             <div data-role="collapsible" data-collapsed="false" data-inset="false"  data-mini="true" data-theme="c" data-content-theme="c">    
@@ -85,7 +85,7 @@ function loadInfo(){
         requestArtistInfo(artist);
     }
     $("#info-title").html(eventTitle);
-    $("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&near="+venueLat+","+venueLng+"'>"+venue+"</a>");
+    $("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&ll="+venueLat+","+venueLng+"'>"+venue+"</a>");
     $("#info-date").html(getHumanDate(date) );
     if(ticketUrl == "" || ticketUrl == "undefined"){
         $("#info-tickets").text("");
@@ -195,7 +195,16 @@ function getVideos(videos) {
         + youtubeParser(videos[0].url) + "' frameborder='0'/>"
     return video;
 }
-
+function getCalendarLink(title,startDate,endDate,description,location){
+	var link = "http://www.google.com/calendar/event?action=TEMPLATE"
+			+"&text=" + title
+			+"&dates=" + startDate.getUTCFullYear()+startDate.getUTCMonth()+startDate.getUTCDate()+"T"+startDate.getUTCHours()+startDate.getUTCMinutes()+startDate.getUTCSeconds()
+			+"/"+endDate.getUTCFullYear()+endDate.getUTCMonth()+endDate.getUTCDate()+"T"+endDate.getUTCHours()+endDate.getUTCMinutes()+endDate.getUTCSeconds()+"Z"
+			+"&details=" + description
+			+"&location=" + location
+			+"&trp=false"
+			+"&sprop=Band%20Wagon%20Playlist&sprop=name:http%3A%2F%2Fbandwagon.pl";
+}
 
 function getHumanDate(date){
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
