@@ -125,6 +125,7 @@ function onResize(){
 		$("#info-scroller").animate({"right":"0"});
 		gallery.updatePageCount(2);
 	    if(gallery.page==2){gallery.goToPage(1);}
+	    $("#goToSettingsButton").show();
 	}else if( $(window).width() < 1000 && widescreen){
 		widescreen = false;
 		$("#info-scroller").animate({"right":"0"});
@@ -133,5 +134,6 @@ function onResize(){
 		$("#info-scroller").width("100%");
 		$("#info").appendTo(gallery.masterPages[0]);
 	    gallery.updatePageCount(3);
+	    $("#goToSettingsButton").hide();
 	}
 }

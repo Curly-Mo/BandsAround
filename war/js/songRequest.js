@@ -9,7 +9,7 @@ function requestTracks(attempt){
 	sessionStorage.setItem("attempt", attempt);
     if(attempt >= 10 || attempt < -1){
         alert("Oh no! Something went wrong. =(\n");
-        gallery.goToPage(2);
+        gallery.prev();gallery.prev();
         $("#loading").hide();
         return;
     }
