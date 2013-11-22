@@ -175,20 +175,21 @@ function unloadTracksFromBeginning(numToUnload) {
     }, 100);
 }
 
+function initAudioJS(){
+    var a = audiojs.createAll({
+        trackEnded: function() {
+          var next = $('#tracks li.playing').next();
+          if (next.length) next.click();
+        }
+      });
+      audio = a[0];
+}
 function updatePlaylist(){
     if(!initialized){
         // Setup the player to autoplay the next track
-        var a = audiojs.createAll({
-          trackEnded: function() {
-            var next = $('#tracks li.playing').next();
-            if (next.length) next.click();
-            loadInfo();
-          }
-        });
-    
+    	
         // Load in the first track
-        audio = a[0];
-            first = $('#tracks a').attr('data-src');
+        first = $('#tracks a').attr('data-src');
         $('#tracks li').first().addClass('playing');
         audio.load(first);
         $("#title").text($('li.playing').text());
@@ -214,6 +215,7 @@ function updatePlaylist(){
        			window.setTimeout('audio.play()', 1000);
        			} else {
        			audio.play();
+       			loadInfo();
        		}
        	}
     }
@@ -231,6 +233,7 @@ function updatePlaylist(){
         audio.play();
         //$("#title").text($('li.playing').text());    
         manageList(index);
+        $(".audiojs").removeClass("error");
         setTimeout(function () {
             myScroll.scrollToElement(element, 1000);
             loadInfo();

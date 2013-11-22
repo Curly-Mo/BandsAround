@@ -82,7 +82,7 @@ function loadInfo(){
     var lineup = playing.attr("data-lineup");
     var headliner = playing.attr("data-headliner");
     
-    if(artist != "" || artist != "undefined"){
+    if(artist != "" && artist != "undefined"){
         requestArtistInfo(artist);
     }
     $("#info-title").html(eventTitle);

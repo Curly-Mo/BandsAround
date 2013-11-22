@@ -42,6 +42,7 @@ $('#mainPage').load('mainPage.html', function() {
         $("#listview-wrapper").addClass("ui-page");
         $("#tracks").listview();
         $("#listview-wrapper").removeClass("ui-page");
+        initAudioJS();
         //if(sessionStorage && sessionStorage.tracks){
         //    loadFromSessionStorage();
         //}else{
@@ -63,7 +64,6 @@ $('#info').load('info.html', function() {
         $("#artist-detail").listview();
         $("#artist-collapsible").removeClass("ui-page");
         init_infoScroll();
-        loadInfo();
         $("div:jqmData(role='collapsible')").each(function(){
             $(this).bind( "collapse", function(){infoScroll.refresh();}); 
             $(this).bind( "expand", function(){infoScroll.refresh();}); 
@@ -115,7 +115,7 @@ function refreshTheme() {
 
 var widescreen=false;
 function onResize(){
-	if( $(window).width() > 1000 && !widescreen){
+	if( $(window).width() > 900 && !widescreen){
 		widescreen = true;
 	  	$("#scroller-wrapper").width("40%");
 		$(".audiojs").width("40%");
@@ -126,7 +126,7 @@ function onResize(){
 		gallery.updatePageCount(2);
 	    if(gallery.page==2){gallery.goToPage(1);}
 	    $("#goToSettingsButton").show();
-	}else if( $(window).width() < 1000 && widescreen){
+	}else if( $(window).width() < 900 && widescreen){
 		widescreen = false;
 		$("#info-scroller").animate({"right":"0"});
 		$("#scroller-wrapper").width("100%");
