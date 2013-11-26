@@ -213,7 +213,7 @@ function updatePlaylist(){
        	if(!isMobile()){
        		if(audio.settings.useFlash) {
        			window.setTimeout('audio.play()', 1000);
-       			} else {
+       		} else {
        			audio.play();
        			loadInfo();
        		}

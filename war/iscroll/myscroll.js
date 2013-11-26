@@ -2,40 +2,17 @@ var myScroll;
 var settingsScroll;
 var infoScroll;
 function init_myScroll() {
-    myScroll = new iScroll('scroller', {
-        hScroll: false,
-        vScroll: true,
-        x: 0,
-        y: 0,
-        bounce: false,
-        bounceLock: false,
-        momentum: true,
-        lockDirection: true,
-        useTransform: true,
-        useTransition: true,
-        topOffset: 0,
-        checkDOMChanges: false,        // Experimental
-        handleClick: true,
-        
-        snap: false,
-        snapThreshold: 1,
-        
-        onRefresh: null,
-        onBeforeScrollStart: function (e) { e.preventDefault(); },
-        onScrollStart: null,
-        onBeforeScrollMove: null,
-        onScrollMove: null,
-        onBeforeScrollEnd: null,
-        onScrollEnd: null,
-        onTouchEnd: null,
-        onDestroy: null
+    myScroll = new IScroll('#scroller', {
+    	bounce: false,
+    	keyBindings: true,
+    	mouseWheel: true, 
+    	scrollbars: true,
+    	interactiveScrollbars: true
             });
 }
 
 function init_settingsScroll(){
-    settingsScroll = new iScroll('settings-scroller', {
-        hScroll: false,
-        vScroll: true,
+    settingsScroll = new IScroll('#settings-scroller', {
         x: 0,
         y: 0,
         bounce: false,
@@ -50,23 +27,15 @@ function init_settingsScroll(){
         
         snap: false,
         snapThreshold: 1,
-        
-        onRefresh: null,
-        onBeforeScrollStart: function (e) { e.preventDefault(); },
-        onScrollStart: null,
-        onBeforeScrollMove: null,
-        onScrollMove: null,
-        onBeforeScrollEnd: null,
-        onScrollEnd: null,
-        onTouchEnd: null,
-        onDestroy: null
+    	keyBindings: true,
+    	scrollbars: true, 
+    	mouseWheel: true, 
+    	interactiveScrollbars: true
             });
 }
 
 function init_infoScroll(){
-    infoScroll = new iScroll('info-scroller', {
-        hScroll: false,
-        vScroll: true,
+    infoScroll = new IScroll('#info-scroller', {
         x: 0,
         y: 0,
         bounce: false,
@@ -81,16 +50,10 @@ function init_infoScroll(){
         
         snap: false,
         snapThreshold: 1,
-        
-        onRefresh: null,
-        onBeforeScrollStart: function (e) { e.preventDefault(); },
-        onScrollStart: null,
-        onBeforeScrollMove: null,
-        onScrollMove: null,
-        onBeforeScrollEnd: null,
-        onScrollEnd: null,
-        onTouchEnd: null,
-        onDestroy: null
+    	keyBindings: true,
+    	scrollbars: true, 
+    	mouseWheel: true, 
+    	interactiveScrollbars: true
             });
 }
 
