@@ -215,7 +215,9 @@ function updatePlaylist(){
        			window.setTimeout('audio.play()', 1000);
        		} else {
        			audio.play();
-       			loadInfo();
+                try{
+                	loadInfo();
+                } catch (e) {}
        		}
        	}
     }
