@@ -236,7 +236,9 @@ function updatePlaylist(){
         $(".audiojs").removeClass("error");
         setTimeout(function () {
             myScroll.scrollToElement(element, 1000);
-            loadInfo();
+            try{
+            	loadInfo();
+            } catch (e) {}
             //sessionStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index)));
             //localStorage.setItem("tracks", JSON.stringify(allTracks.slice(0,allTracks.length-index+1)));
         }, 100);

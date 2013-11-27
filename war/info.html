@@ -81,13 +81,20 @@ function loadInfo(){
     var ticketUrl = playing.attr("data-ticketUrl");
     var lineup = playing.attr("data-lineup");
     var headliner = playing.attr("data-headliner");
+    var m = date.getMonth();
+    var d = date.getDate()
+    var calendarURL = "http://www.google.com/calendar/event?action=TEMPLATE&text="+eventTitle
+                  +"&dates="+date.getFullYear()+(m > 9 ? m : "0"+m)+(d > 9 ? d : "0"+d)+"/"+date.getFullYear()+(m > 9 ? m : "0"+m)+(d > 9 ? d : "0"+d)
+                  +"&details="+lineup.replace(/\|\|/g, "%0A")
+                  +"&location="+venue
+                  +"&trp=false&sprop=Band%20Wagon%20Playlist&sprop=name:http://bandwagon.pl";
     
     if(artist != "" && artist != "undefined"){
         requestArtistInfo(artist);
     }
     $("#info-title").html(eventTitle);
     $("#info-venue").html("@<a target='_blank' href='http://maps.google.com/?q="+encodeURIComponent(venue)+"&ll="+venueLat+","+venueLng+"'>"+venue+"</a>");
-    $("#info-date").html(getHumanDate(date) );
+    $("#info-date").html("<a target='_blank' href='"+calendarURL+"'>"+ getHumanDate(date) +"</a>");
     if(ticketUrl == "" || ticketUrl == "undefined"){
         $("#info-tickets").text("");
         $("#info-tickets").attr("href","");
@@ -158,7 +165,9 @@ function requestArtistInfo(artistID){
             if(typeof artistProfile.video[0] !== "undefined"){
                 $("#info-artist-videos").html(getVideos(artistProfile.video));  
             }
-            infoScroll.refresh();
+            if(infoScroll !== "undefined"){
+                infoScroll.refresh();
+            }
         }
     });
 }
