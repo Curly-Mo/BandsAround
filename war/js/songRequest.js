@@ -133,7 +133,7 @@ function loadTracks(numToLoad) {
             if(typeof artworkURL === "undefined"){
                 artworkURL="/img/wagon80.png";
             }
-            $("<li name='"+track.artist+"' data-date='"+track.date+"' data-ticketUrl='"+track.ticketUrl+"' data-venue='"+track.venue.name+"' data-venueLat='"+track.venue.latitude+"' data-venueLng='"+track.venue.longitude+"' data-venuePhone='"+track.venue.phone+"' data-eventTitle='"+track.eventTitle+"' data-lineup='"+lineup+"' data-headliner='"+track.headliner
+            $("<li name='"+track.artist+"' data-track='"+track.title+"' data-date='"+track.date+"' data-ticketUrl='"+track.ticketUrl+"' data-venue='"+track.venue.name+"' data-venueLat='"+track.venue.latitude+"' data-venueLng='"+track.venue.longitude+"' data-venuePhone='"+track.venue.phone+"' data-eventTitle='"+track.eventTitle+"' data-lineup='"+lineup+"' data-headliner='"+track.headliner
                     +"'><a href='#' data-src='"+track.streamURL+"'>"
                     +"<img src="+artworkURL+">"
                     +"<h3>"+track.artist+"</h3>"
@@ -233,6 +233,7 @@ function updatePlaylist(){
         //refreshListview();
         audio.load($('a', this).attr('data-src'));
         audio.play();
+        ga('send', 'event', 'play', $(this).attr('name'), $(this).attr('data-track'), 1);
         //$("#title").text($('li.playing').text());    
         manageList(index);
         $(".audiojs").removeClass("error");
