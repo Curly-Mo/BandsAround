@@ -100,7 +100,7 @@ public class AsyncTracksRequestServlet extends HttpServlet {
                 tracks = gson.fromJson(new String(response.getContent(), "UTF-8"), collectionType);
                                 
                 for(Track track : tracks){
-                    if(track.getStreamable().equals("true")){
+                    if(track.getStreamable() != null && track.getStreamable().equals("true")){
                         JSONObject venue = new JSONObject();
                         venue.put("name", trackEvents.get(index).getVenue().getName());
                         venue.put("latitude", trackEvents.get(index).getVenue().getLatitude());
